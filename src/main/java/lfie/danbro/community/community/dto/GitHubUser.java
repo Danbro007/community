@@ -1,16 +1,16 @@
 package lfie.danbro.community.community.dto;
 
 public class GitHubUser {
-    private String name;
+    private String login;
     private String bio;
     private Long id;
 
-    public String getName() {
-        return name;
+    public String getLogin() {
+        return login;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getBio() {
@@ -32,7 +32,7 @@ public class GitHubUser {
     @Override
     public String toString() {
         return "GitHubUser{" +
-                "name='" + name + '\'' +
+                "login='" + login + '\'' +
                 ", bio='" + bio + '\'' +
                 ", id=" + id +
                 '}';

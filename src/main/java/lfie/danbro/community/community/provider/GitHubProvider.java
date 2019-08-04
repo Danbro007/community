@@ -39,6 +39,7 @@ public class GitHubProvider {
             String string = response.body().string();
             System.out.println(string);
             GitHubUser gitHubUser = JSON.parseObject(string,GitHubUser.class);
+
             return gitHubUser;
         } catch (IOException e) {
         }
