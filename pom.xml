@@ -53,6 +53,12 @@
             <version>1.18.8</version>
             <scope>provided</scope>
         </dependency>
+        <!--添加pagehelper分页器支持-->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.2.12</version>
+        </dependency>
         <!--添加fastjson支持-->
         <dependency>
             <groupId>com.alibaba</groupId>

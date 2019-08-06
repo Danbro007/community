@@ -1,11 +1,11 @@
-package lfie.danbro.community.community.model;
+package lfie.danbro.community.community.dto;
 
 
+import lfie.danbro.community.community.model.User;
 import lombok.Data;
 
 @Data
-public class Question {
-
+public class QuestionDto {
     private Integer id;
     private String title;
     private String description;
@@ -17,4 +17,5 @@ public class Question {
     private Integer likeCount;
     private String tag;
     private User user;
+
 }
