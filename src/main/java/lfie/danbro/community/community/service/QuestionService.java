@@ -13,6 +13,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,13 +37,24 @@ public class QuestionService {
     public PageInfo<Question> getQuestionList(Integer page, Integer size) {
         //分页器
         PageHelper.startPage(page, size);
-        List<Question> questions = questionMapper.getQuestionList();
+        List<Question> questions = questionMapper.getAllQuestions();
         PageInfo<Question> info = new PageInfo<>(questions);
         for (Question question : info.getList()) {
             User user = userMapper.findUserById(question.getCreator());
             question.setUser(user);
         }
-        System.out.println(info.getPageNum());
+        return info;
+    }
+
+    public PageInfo<Question> getQuestionByUserId(Integer userId, Integer page, Integer size) {
+        //分页器
+        PageHelper.startPage(page, size);
+        List<Question> questions = questionMapper.getQustionsByUserId(userId);
+        PageInfo<Question> info = new PageInfo<>(questions);
+        for (Question question : info.getList()) {
+            User user = userMapper.findUserById(question.getCreator());
+            question.setUser(user);
+        }
         return info;
     }
 

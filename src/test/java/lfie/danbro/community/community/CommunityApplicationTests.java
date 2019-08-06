@@ -21,11 +21,7 @@ public class CommunityApplicationTests {
 
     @Test
     public void testPanigtion() {
-        PageHelper.startPage(1, 5);
-        List<Question> questions = questionMapper.getQuestionList();
-        for (Question question : questions) {
-            System.out.println(question.getTitle());
-        }
+
 
     }
 
