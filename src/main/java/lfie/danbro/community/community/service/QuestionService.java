@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lfie.danbro.community.community.Exception.CustomizeErrorCode;
 import lfie.danbro.community.community.Exception.CustomizeExpection;
+import lfie.danbro.community.community.mapper.QuestionExtMapper;
 import lfie.danbro.community.community.mapper.QuestionMapper;
 import lfie.danbro.community.community.mapper.UserMapper;
 import lfie.danbro.community.community.model.Question;
@@ -25,6 +26,9 @@ public class QuestionService {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    QuestionExtMapper questionExtMapper;
+
     /**
      * 获取分页后的问题列表
      *
@@ -33,7 +37,6 @@ public class QuestionService {
      * @return 问题列表
      */
     public PageInfo<Question> getQuestionList(Integer page, Integer size) {
-        //分页器
         PageHelper.startPage(page, size);
         QuestionExample questionExample = new QuestionExample();
         questionExample.createCriteria();
@@ -48,6 +51,14 @@ public class QuestionService {
         return info;
     }
 
+    /**
+     * 通过用户id找到问题
+     *
+     * @param userId 用户id
+     * @param page   页数
+     * @param size   每页展示的问题数量
+     * @return 问题列表
+     */
     public PageInfo<Question> getQuestionByUserId(Integer userId, Integer page, Integer size) {
         //分页器
         PageHelper.startPage(page, size);
@@ -66,6 +77,7 @@ public class QuestionService {
 
     /**
      * 通过问题id查找问题
+     *
      * @param id 问题id
      * @return 问题对象
      */
@@ -74,7 +86,7 @@ public class QuestionService {
         questionExample.createCriteria().andIdEqualTo(id);
 
         List<Question> questions = questionMapper.selectByExample(questionExample);
-        if (questions.size() == 0){
+        if (questions.size() == 0) {
             throw new CustomizeExpection(CustomizeErrorCode.QUESTION_NOT_FOUND);
         }
         Question question = questions.get(0);
@@ -86,18 +98,32 @@ public class QuestionService {
 
     /**
      * 更新或者创建新的问题
+     *
      * @param question 问题对象
      */
     public void updateOrInsert(Question question) {
-        if (question.getId() == null){
-            questionMapper.insert(question);
-        }else{
+        if (question.getId() == null) {
+            questionMapper.insertSelective(question);
+        } else {
             QuestionExample questionExample = new QuestionExample();
             questionExample.createCriteria().andIdEqualTo(question.getId());
             int i = questionMapper.updateByExampleSelective(question, questionExample);
-            if (i != 1){
+            if (i != 1) {
                 throw new CustomizeExpection(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
         }
+    }
+
+
+    /**
+     * 更新浏览数
+     *
+     * @param id 问题id
+     */
+    public void incQuestionView(Integer id) {
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incQuestionView(question);
     }
 }

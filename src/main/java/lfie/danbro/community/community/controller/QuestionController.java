@@ -20,6 +20,7 @@ public class QuestionController {
                                Model model){
         Question question = questionService.getQuestionById(id);
         model.addAttribute("question",question);
+        questionService.incQuestionView(question.getId());
         return "question";
     }
 
