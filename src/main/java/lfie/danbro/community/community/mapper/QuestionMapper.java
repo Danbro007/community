@@ -19,6 +19,9 @@ public interface QuestionMapper {
     List<Question> getAllQuestions();
 
     @Select("SELECT * FROM question WHERE creator = #{id}")
-    List<Question> getQustionsByUserId(Integer userId);
+    List<Question> getQuestionsByUserId(Integer userId);
 
+
+    @Select("SELECT * FROM question WHERE id = #{id}")
+    Question getQuestionById(Integer id);
 }

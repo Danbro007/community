@@ -49,7 +49,7 @@ public class QuestionService {
     public PageInfo<Question> getQuestionByUserId(Integer userId, Integer page, Integer size) {
         //分页器
         PageHelper.startPage(page, size);
-        List<Question> questions = questionMapper.getQustionsByUserId(userId);
+        List<Question> questions = questionMapper.getQuestionsByUserId(userId);
         PageInfo<Question> info = new PageInfo<>(questions);
         for (Question question : info.getList()) {
             User user = userMapper.findUserById(question.getCreator());
@@ -59,4 +59,9 @@ public class QuestionService {
     }
 
 
+    public Question getQuestionById(Integer id) {
+        Question question = questionMapper.getQuestionById(id);
+        question.setUser(userMapper.findUserById(question.getCreator()));
+        return question;
+    }
 }

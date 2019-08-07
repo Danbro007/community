@@ -5,6 +5,7 @@ import lfie.danbro.community.community.model.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface UserMapper {
@@ -19,4 +20,9 @@ public interface UserMapper {
     @Select("SELECT * FROM user WHERE id = #{id}")
     User findUserById(Integer id);
 
+    @Select("SELECT * FROM user WHERE account_id = #{accountId}")
+    User findUserByAccountId(String accountId);
+
+    @Update("UPDATE user SET token = #{token},avatar_url = #{avatarUrl},name = #{name},gmt_modified = #{gmtModified} WHERE account_id = #{accountId}")
+    void updateUserToken(User user);
 }

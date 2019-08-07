@@ -6,6 +6,7 @@ import lfie.danbro.community.community.dto.GitHubUser;
 import lfie.danbro.community.community.mapper.UserMapper;
 import lfie.danbro.community.community.model.User;
 import lfie.danbro.community.community.provider.GitHubProvider;
+import lfie.danbro.community.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -32,8 +33,7 @@ public class AuthorizeController {
     private String redirectUri;
 
     @Autowired
-    UserMapper userMapper;
-
+    UserService userService;
     @GetMapping("/callback")
     public String callback(@RequestParam("code") String code,
                            @RequestParam("state") String state,
@@ -56,7 +56,7 @@ public class AuthorizeController {
             user.setAvatarUrl(gitHubUser.getAvatarUrl());
             user.setAccountId(String.valueOf(gitHubUser.getId()));
             //添加用户到数据库里
-            userMapper.addUser(user);
+            userService.updateOrInsert(user);
             //添加token到cookie里
             response.addCookie(new Cookie("token",user.getToken()));
             return "redirect:/";
