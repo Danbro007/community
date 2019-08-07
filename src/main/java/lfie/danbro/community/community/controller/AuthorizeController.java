@@ -3,7 +3,6 @@ package lfie.danbro.community.community.controller;
 
 import lfie.danbro.community.community.dto.AccessTokenDto;
 import lfie.danbro.community.community.dto.GitHubUser;
-import lfie.danbro.community.community.mapper.UserMapper;
 import lfie.danbro.community.community.model.User;
 import lfie.danbro.community.community.provider.GitHubProvider;
 import lfie.danbro.community.community.service.UserService;
@@ -39,7 +38,8 @@ public class AuthorizeController {
     @GetMapping("/callback")
     public String callback(@RequestParam("code") String code,
                            @RequestParam("state") String state,
-                           HttpServletResponse response) {
+                           HttpServletResponse response,
+                           HttpServletRequest request) {
         AccessTokenDto accessTokenDto = new AccessTokenDto();
         accessTokenDto.setClient_id(clientId);
         accessTokenDto.setClient_secret(clientSercet);

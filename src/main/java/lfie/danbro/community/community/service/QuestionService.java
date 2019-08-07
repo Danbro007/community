@@ -3,10 +3,14 @@ package lfie.danbro.community.community.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import lfie.danbro.community.community.Exception.CustomizeErrorCode;
+import lfie.danbro.community.community.Exception.CustomizeExpection;
 import lfie.danbro.community.community.mapper.QuestionMapper;
 import lfie.danbro.community.community.mapper.UserMapper;
 import lfie.danbro.community.community.model.Question;
+import lfie.danbro.community.community.model.QuestionExample;
 import lfie.danbro.community.community.model.User;
+import lfie.danbro.community.community.model.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +25,6 @@ public class QuestionService {
     @Autowired
     UserMapper userMapper;
 
-
     /**
      * 获取分页后的问题列表
      *
@@ -32,11 +35,15 @@ public class QuestionService {
     public PageInfo<Question> getQuestionList(Integer page, Integer size) {
         //分页器
         PageHelper.startPage(page, size);
-        List<Question> questions = questionMapper.getAllQuestions();
+        QuestionExample questionExample = new QuestionExample();
+        questionExample.createCriteria();
+        List<Question> questions = questionMapper.selectByExample(questionExample);
         PageInfo<Question> info = new PageInfo<>(questions);
         for (Question question : info.getList()) {
-            User user = userMapper.findUserById(question.getCreator());
-            question.setUser(user);
+            UserExample userExample = new UserExample();
+            userExample.createCriteria().andIdEqualTo(question.getCreator());
+            List<User> users = userMapper.selectByExample(userExample);
+            question.setUser(users.get(0));
         }
         return info;
     }
@@ -44,11 +51,15 @@ public class QuestionService {
     public PageInfo<Question> getQuestionByUserId(Integer userId, Integer page, Integer size) {
         //分页器
         PageHelper.startPage(page, size);
-        List<Question> questions = questionMapper.getQuestionsByUserId(userId);
+        QuestionExample questionExample = new QuestionExample();
+        questionExample.createCriteria().andCreatorEqualTo(userId);
+        List<Question> questions = questionMapper.selectByExample(questionExample);
         PageInfo<Question> info = new PageInfo<>(questions);
         for (Question question : info.getList()) {
-            User user = userMapper.findUserById(question.getCreator());
-            question.setUser(user);
+            UserExample userExample = new UserExample();
+            userExample.createCriteria().andIdEqualTo(question.getCreator());
+            List<User> users = userMapper.selectByExample(userExample);
+            question.setUser(users.get(0));
         }
         return info;
     }
@@ -59,17 +70,18 @@ public class QuestionService {
      * @return 问题对象
      */
     public Question getQuestionById(Integer id) {
-        Question question = questionMapper.getQuestionById(id);
-        question.setUser(userMapper.findUserById(question.getCreator()));
-        return question;
-    }
+        QuestionExample questionExample = new QuestionExample();
+        questionExample.createCriteria().andIdEqualTo(id);
 
-    /**
-     * 添加问题
-     * @param question 问题
-     */
-    public void addQuestion(Question question) {
-        questionMapper.addQuestion(question);
+        List<Question> questions = questionMapper.selectByExample(questionExample);
+        if (questions.size() == 0){
+            throw new CustomizeExpection(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
+        Question question = questions.get(0);
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andIdEqualTo(question.getCreator());
+        question.setUser(userMapper.selectByExample(userExample).get(0));
+        return question;
     }
 
     /**
@@ -78,9 +90,14 @@ public class QuestionService {
      */
     public void updateOrInsert(Question question) {
         if (question.getId() == null){
-            questionMapper.addQuestion(question);
+            questionMapper.insert(question);
         }else{
-            questionMapper.updateQuestion(question);
+            QuestionExample questionExample = new QuestionExample();
+            questionExample.createCriteria().andIdEqualTo(question.getId());
+            int i = questionMapper.updateByExampleSelective(question, questionExample);
+            if (i != 1){
+                throw new CustomizeExpection(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
         }
     }
 }

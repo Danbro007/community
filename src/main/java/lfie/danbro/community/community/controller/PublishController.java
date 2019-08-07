@@ -1,8 +1,6 @@
 package lfie.danbro.community.community.controller;
 
 
-import lfie.danbro.community.community.mapper.QuestionMapper;
-import lfie.danbro.community.community.mapper.UserMapper;
 import lfie.danbro.community.community.model.Question;
 import lfie.danbro.community.community.model.User;
 import lfie.danbro.community.community.service.QuestionService;
