@@ -2,7 +2,6 @@ package lfie.danbro.community.community.controller;
 
 
 import com.github.pagehelper.PageInfo;
-import lfie.danbro.community.community.mapper.UserMapper;
 import lfie.danbro.community.community.model.Question;
 import lfie.danbro.community.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class IndexController {
-
-
-    @Autowired
-    UserMapper userMapper;
 
     @Autowired
     QuestionService questionService;

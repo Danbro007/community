@@ -5,6 +5,7 @@ import lfie.danbro.community.community.model.Question;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -24,4 +25,8 @@ public interface QuestionMapper {
 
     @Select("SELECT * FROM question WHERE id = #{id}")
     Question getQuestionById(Integer id);
+
+
+    @Update("UPDATE question SET title = #{title},description = #{description},tag = #{tag}, gmt_modified = #{gmtModified} WHERE id = #{id}")
+    void updateQuestion(Question question);
 }

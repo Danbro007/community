@@ -1,20 +1,15 @@
 package lfie.danbro.community.community.service;
 
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import lfie.danbro.community.community.dto.QuestionDto;
 import lfie.danbro.community.community.mapper.QuestionMapper;
 import lfie.danbro.community.community.mapper.UserMapper;
 import lfie.danbro.community.community.model.Question;
 import lfie.danbro.community.community.model.User;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -58,10 +53,34 @@ public class QuestionService {
         return info;
     }
 
-
+    /**
+     * 通过问题id查找问题
+     * @param id 问题id
+     * @return 问题对象
+     */
     public Question getQuestionById(Integer id) {
         Question question = questionMapper.getQuestionById(id);
         question.setUser(userMapper.findUserById(question.getCreator()));
         return question;
+    }
+
+    /**
+     * 添加问题
+     * @param question 问题
+     */
+    public void addQuestion(Question question) {
+        questionMapper.addQuestion(question);
+    }
+
+    /**
+     * 更新或者创建新的问题
+     * @param question 问题对象
+     */
+    public void updateOrInsert(Question question) {
+        if (question.getId() == null){
+            questionMapper.addQuestion(question);
+        }else{
+            questionMapper.updateQuestion(question);
+        }
     }
 }
