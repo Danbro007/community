@@ -45,7 +45,7 @@ public class PublishController {
         } else {
             Question question = new Question();
             question.setTag(tag);
-            question.setId(user.getId());
+            question.setCreator(user.getId());
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreate());
             question.setTitle(title);

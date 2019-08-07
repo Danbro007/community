@@ -24,7 +24,7 @@ t
             <span th:text="${question.getDescription()}"></span>
             <hr>
             <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
-                <a th:href="@{'/publish/' + ${question.getId()}}" class="glyphicon glyphicon-edit" style="color: #999999;font-size: 12px">编辑</a>
+                <a th:href="@{'/publish/' + ${question.getId()}}" class="glyphicon glyphicon-edit" style="color: #999999;font-size: 12px" th:if="${ session.user != null && question.creator == session.user.id}">编辑</a>
             </div>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
