@@ -61,6 +61,7 @@ public class AuthorizeController {
             userService.updateOrInsert(user);
             //添加token到cookie里
             response.addCookie(new Cookie("token",user.getToken()));
+            request.getSession().setAttribute("user",user);
             return "redirect:/";
             //登录失败
         }else {

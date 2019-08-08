@@ -18,9 +18,15 @@
     <result column="like_count" jdbcType="INTEGER" property="likeCount" />
     <result column="tag" jdbcType="VARCHAR" property="tag" />
   </resultMap>
-  <update id="incQuestionView" parameterType="lfie.danbro.community.community.model.Question">
+  <update id="increaseViewCount" parameterType="lfie.danbro.community.community.model.Question">
     UPDATE question
-    SET view_count = view_count + #{viewCount,jdbcType=INTEGER}
+    SET view_count = view_count + #{viewCount,jdbcType=BIGINT}
+    WHERE id = #{id}
+  </update>
+
+  <update id="increaseCommentCount" parameterType="lfie.danbro.community.community.model.Question">
+    UPDATE question
+    SET comment_count = comment_count + #{commentCount,jdbcType=BIGINT}
     WHERE id = #{id}
   </update>
 

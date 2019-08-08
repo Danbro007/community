@@ -24,6 +24,7 @@ public class UserService {
         UserExample userExample = new UserExample();
         userExample.createCriteria().andAccountIdEqualTo(user.getAccountId());
         List<User> dbUsers = userMapper.selectByExample(userExample);
+        //数据库中找不到用户 添加用户
         if (dbUsers.size() == 0){
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());

@@ -90,7 +90,7 @@ public class QuestionService {
      * @param id 问题id
      * @return 问题对象
      */
-    public QuestionDto getQuestionById(Integer id) {
+    public QuestionDto getQuestionById(Long id) {
         QuestionExample questionExample = new QuestionExample();
         questionExample.createCriteria().andIdEqualTo(id);
 
@@ -131,10 +131,25 @@ public class QuestionService {
      *
      * @param id 问题id
      */
-    public void incQuestionView(Integer id) {
+    public void increaseViewCount(Long id) {
         Question question = new Question();
         question.setId(id);
-        question.setViewCount(1);
-        questionExtMapper.incQuestionView(question);
+        question.setViewCount(1L);
+        questionExtMapper.increaseViewCount(question);
+    }
+    public void increaseCommentCount(Long id){
+        Question question = new Question();
+        question.setId(id);
+        question.setCommentCount(1L);
+        questionExtMapper.increaseCommentCount(question);
+    }
+
+    /**
+     * 通过问题id查找问题
+     * @param id 问题id
+     * @return 查找的问题
+     */
+    public Question selectByPrimaryKey(Long id){
+        return questionMapper.selectByPrimaryKey(id);
     }
 }

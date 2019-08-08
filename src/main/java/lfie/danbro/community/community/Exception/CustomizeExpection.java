@@ -3,17 +3,22 @@ package lfie.danbro.community.community.Exception;
 public class CustomizeExpection extends RuntimeException {
 
     private String message;
+    private Integer code;
 
     @Override
     public String getMessage() {
         return message;
     }
 
-    public CustomizeExpection(MyCustomizeErrorCode errorCode) {
-        this.message = errorCode.getMessage();
+    public Integer getCode() {
+        return code;
     }
 
-    public CustomizeExpection(String message) {
-        this.message = message;
+
+    public CustomizeExpection(MyCustomizeErrorCode errorCode) {
+        this.message = errorCode.getMessage();
+        this.code = errorCode.getCode();
     }
+
 }
+
