@@ -1,6 +1,7 @@
 package lfie.danbro.community.community.controller;
 
 
+import lfie.danbro.community.community.dto.QuestionDto;
 import lfie.danbro.community.community.model.Question;
 import lfie.danbro.community.community.model.User;
 import lfie.danbro.community.community.service.QuestionService;
@@ -56,11 +57,11 @@ public class PublishController {
     @GetMapping("/publish/{id}")
     public String publishEditOrAdd(@PathVariable("id") Integer id,
                                    Model model){
-        Question question = questionService.getQuestionById(id);
-        model.addAttribute("title",question.getTitle());
-        model.addAttribute("description",question.getDescription());
-        model.addAttribute("tag",question.getTag());
-        model.addAttribute("id",question.getId());
+        QuestionDto questionDto = questionService.getQuestionById(id);
+        model.addAttribute("title",questionDto.getTitle());
+        model.addAttribute("description",questionDto.getDescription());
+        model.addAttribute("tag",questionDto.getTag());
+        model.addAttribute("id",questionDto.getId());
         return "publish";
     }
 

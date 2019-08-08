@@ -331,13 +331,5 @@ public class Question {
         this.tag = tag == null ? null : tag.trim();
     }
 
-    private User user;
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }

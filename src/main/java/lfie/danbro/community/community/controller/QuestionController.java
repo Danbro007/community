@@ -1,6 +1,7 @@
 package lfie.danbro.community.community.controller;
 
 
+import lfie.danbro.community.community.dto.QuestionDto;
 import lfie.danbro.community.community.model.Question;
 import lfie.danbro.community.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,9 @@ public class QuestionController {
     @GetMapping("/question/{id}")
     public String questionView(@PathVariable("id") Integer id,
                                Model model){
-        Question question = questionService.getQuestionById(id);
-        model.addAttribute("question",question);
-        questionService.incQuestionView(question.getId());
+        QuestionDto questionDto = questionService.getQuestionById(id);
+        model.addAttribute("question",questionDto);
+        questionService.incQuestionView(questionDto.getId());
         return "question";
     }
 

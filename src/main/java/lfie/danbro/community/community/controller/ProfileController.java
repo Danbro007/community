@@ -2,6 +2,7 @@ package lfie.danbro.community.community.controller;
 
 
 import com.github.pagehelper.PageInfo;
+import lfie.danbro.community.community.dto.QuestionDto;
 import lfie.danbro.community.community.model.Question;
 import lfie.danbro.community.community.model.User;
 import lfie.danbro.community.community.service.QuestionService;
@@ -36,9 +37,9 @@ public class ProfileController {
                 model.addAttribute("sectionName", "我的问题");
                 model.addAttribute("section", action);
                 System.out.println(user.getId());
-                PageInfo<Question> questions = questionService.getQuestionByUserId(user.getId(), page, size);
+                PageInfo<QuestionDto> questionDtos = questionService.getQuestionByUserId(user.getId(), page, size);
 
-                model.addAttribute("questions", questions);
+                model.addAttribute("questions", questionDtos);
             } else {
                 model.addAttribute("sectionName", "我的回复");
                 model.addAttribute("section", action);

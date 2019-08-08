@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lfie.danbro.community.community.Exception.CustomizeErrorCode;
 import lfie.danbro.community.community.Exception.CustomizeExpection;
+import lfie.danbro.community.community.dto.QuestionDto;
 import lfie.danbro.community.community.mapper.QuestionExtMapper;
 import lfie.danbro.community.community.mapper.QuestionMapper;
 import lfie.danbro.community.community.mapper.UserMapper;
@@ -12,9 +13,11 @@ import lfie.danbro.community.community.model.Question;
 import lfie.danbro.community.community.model.QuestionExample;
 import lfie.danbro.community.community.model.User;
 import lfie.danbro.community.community.model.UserExample;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -36,19 +39,22 @@ public class QuestionService {
      * @param size 每页数量
      * @return 问题列表
      */
-    public PageInfo<Question> getQuestionList(Integer page, Integer size) {
+    public PageInfo<QuestionDto> getQuestionList(Integer page, Integer size) {
         PageHelper.startPage(page, size);
         QuestionExample questionExample = new QuestionExample();
         questionExample.createCriteria();
         List<Question> questions = questionMapper.selectByExample(questionExample);
-        PageInfo<Question> info = new PageInfo<>(questions);
-        for (Question question : info.getList()) {
+        List<QuestionDto> questionDtos = new ArrayList<>();
+        for (Question question : questions) {
+            QuestionDto questionDto = new QuestionDto();
             UserExample userExample = new UserExample();
             userExample.createCriteria().andIdEqualTo(question.getCreator());
             List<User> users = userMapper.selectByExample(userExample);
-            question.setUser(users.get(0));
+            BeanUtils.copyProperties(question,questionDto);
+            questionDto.setUser(users.get(0));
+            questionDtos.add(questionDto);
         }
-        return info;
+        return new PageInfo<>(questionDtos);
     }
 
     /**
@@ -59,20 +65,23 @@ public class QuestionService {
      * @param size   每页展示的问题数量
      * @return 问题列表
      */
-    public PageInfo<Question> getQuestionByUserId(Integer userId, Integer page, Integer size) {
+    public PageInfo<QuestionDto> getQuestionByUserId(Integer userId, Integer page, Integer size) {
         //分页器
         PageHelper.startPage(page, size);
         QuestionExample questionExample = new QuestionExample();
         questionExample.createCriteria().andCreatorEqualTo(userId);
         List<Question> questions = questionMapper.selectByExample(questionExample);
-        PageInfo<Question> info = new PageInfo<>(questions);
-        for (Question question : info.getList()) {
+        List<QuestionDto> questionDtos = new ArrayList<>();
+        for (Question question : questions) {
+            QuestionDto questionDto = new QuestionDto();
             UserExample userExample = new UserExample();
             userExample.createCriteria().andIdEqualTo(question.getCreator());
             List<User> users = userMapper.selectByExample(userExample);
-            question.setUser(users.get(0));
+            BeanUtils.copyProperties(question,questionDto);
+            questionDto.setUser(users.get(0));
+            questionDtos.add(questionDto);
         }
-        return info;
+        return new PageInfo<>(questionDtos);
     }
 
     /**
@@ -81,7 +90,7 @@ public class QuestionService {
      * @param id 问题id
      * @return 问题对象
      */
-    public Question getQuestionById(Integer id) {
+    public QuestionDto getQuestionById(Integer id) {
         QuestionExample questionExample = new QuestionExample();
         questionExample.createCriteria().andIdEqualTo(id);
 
@@ -92,8 +101,10 @@ public class QuestionService {
         Question question = questions.get(0);
         UserExample userExample = new UserExample();
         userExample.createCriteria().andIdEqualTo(question.getCreator());
-        question.setUser(userMapper.selectByExample(userExample).get(0));
-        return question;
+        QuestionDto questionDto = new QuestionDto();
+        BeanUtils.copyProperties(question,questionDto);
+        questionDto.setUser(userMapper.selectByExample(userExample).get(0));
+        return questionDto;
     }
 
     /**
