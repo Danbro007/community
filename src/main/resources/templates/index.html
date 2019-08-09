@@ -8,6 +8,15 @@
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
 </head>
+<script type="application/javascript">
+    window.onload = function () {
+        var closable = window.localStorage.getItem("closable");
+        if (closable == "true") {
+            window.close();
+            window.localStorage.removeItem("closable");
+        }
+    }
+</script>
 <body style="background-color: #efefef">
 <nav th:replace="~{bar::topbar}"></nav>
 <div class="container-fluid" style="background-color: white;margin: 30px">
@@ -38,12 +47,13 @@
             <nav aria-label="Page navigation" style="float: right">
                 <ul class="pagination">
                     <li>
-                        <a th:href= "@{/(page=${questions.getPrePage()})}" aria-label="Previous">
+                        <a th:href="@{/(page=${questions.getPrePage()})}" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
-                    <li th:each="page:${questions.getNavigatepageNums()}" th:class="${questions.getPageNum() == page}?'active':''">
-                        <a th:href="@{/(page=${page})}" th:text="${page}" ></a>
+                    <li th:each="page:${questions.getNavigatepageNums()}"
+                        th:class="${questions.getPageNum() == page}?'active':''">
+                        <a th:href="@{/(page=${page})}" th:text="${page}"></a>
                     </li>
                     <li>
                         <a th:href="@{/(page=${questions.getNextPage()})}" aria-label="Next">

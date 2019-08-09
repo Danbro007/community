@@ -18,6 +18,7 @@ public class UserService {
 
     /**
      * 修改或者增加用户
+     *
      * @param user 用户对象
      */
     public void updateOrInsert(User user) {
@@ -25,11 +26,11 @@ public class UserService {
         userExample.createCriteria().andAccountIdEqualTo(user.getAccountId());
         List<User> dbUsers = userMapper.selectByExample(userExample);
         //数据库中找不到用户 添加用户
-        if (dbUsers.size() == 0){
+        if (dbUsers.size() == 0) {
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             userMapper.insert(user);
-        }else{
+        } else {
             User dbUser = dbUsers.get(0);
             User updateUser = new User();
             updateUser.setGmtModified(System.currentTimeMillis());
@@ -38,7 +39,13 @@ public class UserService {
             updateUser.setToken(user.getToken());
             UserExample example = new UserExample();
             example.createCriteria().andAccountIdEqualTo(dbUser.getAccountId());
-            userMapper.updateByExampleSelective(updateUser,example);
+            userMapper.updateByExampleSelective(updateUser, example);
         }
+    }
+
+    public User selectUserByAccountId(String accountId) {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andAccountIdEqualTo(accountId);
+        return userMapper.selectByExample(userExample).get(0);
     }
 }

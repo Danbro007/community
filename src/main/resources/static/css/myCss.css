@@ -5,3 +5,16 @@
     margin: 30px;
 }
 
+.heading{
+    height: 38px;
+    width: 38px;
+}
+
+.menu .icon{
+    margin-left: 10px;
+    color: #999999;
+}
+
+.menu .icon:hover{
+    color: #2aabd2;
+}

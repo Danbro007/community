@@ -60,8 +60,9 @@ public class AuthorizeController {
             //添加用户到数据库里
             userService.updateOrInsert(user);
             //添加token到cookie里
+            User dbUser = userService.selectUserByAccountId(user.getAccountId());
             response.addCookie(new Cookie("token",user.getToken()));
-            request.getSession().setAttribute("user",user);
+            request.getSession().setAttribute("user",dbUser);
             return "redirect:/";
             //登录失败
         }else {

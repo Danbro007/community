@@ -50,7 +50,7 @@ public class QuestionService {
             UserExample userExample = new UserExample();
             userExample.createCriteria().andIdEqualTo(question.getCreator());
             List<User> users = userMapper.selectByExample(userExample);
-            BeanUtils.copyProperties(question,questionDto);
+            BeanUtils.copyProperties(question, questionDto);
             questionDto.setUser(users.get(0));
             questionDtos.add(questionDto);
         }
@@ -77,7 +77,7 @@ public class QuestionService {
             UserExample userExample = new UserExample();
             userExample.createCriteria().andIdEqualTo(question.getCreator());
             List<User> users = userMapper.selectByExample(userExample);
-            BeanUtils.copyProperties(question,questionDto);
+            BeanUtils.copyProperties(question, questionDto);
             questionDto.setUser(users.get(0));
             questionDtos.add(questionDto);
         }
@@ -102,7 +102,7 @@ public class QuestionService {
         UserExample userExample = new UserExample();
         userExample.createCriteria().andIdEqualTo(question.getCreator());
         QuestionDto questionDto = new QuestionDto();
-        BeanUtils.copyProperties(question,questionDto);
+        BeanUtils.copyProperties(question, questionDto);
         questionDto.setUser(userMapper.selectByExample(userExample).get(0));
         return questionDto;
     }
@@ -137,7 +137,8 @@ public class QuestionService {
         question.setViewCount(1L);
         questionExtMapper.increaseViewCount(question);
     }
-    public void increaseCommentCount(Long id){
+
+    public void increaseCommentCount(Long id) {
         Question question = new Question();
         question.setId(id);
         question.setCommentCount(1L);
@@ -146,10 +147,11 @@ public class QuestionService {
 
     /**
      * 通过问题id查找问题
+     *
      * @param id 问题id
      * @return 查找的问题
      */
-    public Question selectByPrimaryKey(Long id){
+    public Question selectByPrimaryKey(Long id) {
         return questionMapper.selectByPrimaryKey(id);
     }
 }

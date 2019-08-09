@@ -18,3 +18,6 @@
 ##工具
 [Git](https://git-scm.com/)
 [lombok](https://projectlombok.org/setup/maven)
+
+##脚本
+[MybatisGenerator初始化]mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate

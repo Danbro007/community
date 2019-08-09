@@ -1,6 +1,8 @@
 package lfie.danbro.community.community;
 
 import com.github.pagehelper.PageHelper;
+import lfie.danbro.community.community.dto.QuestionDto;
+import lfie.danbro.community.community.mapper.QuestionExtMapper;
 import lfie.danbro.community.community.mapper.QuestionMapper;
 import lfie.danbro.community.community.model.Question;
 import lfie.danbro.community.community.model.User;
@@ -17,7 +19,7 @@ import java.util.List;
 public class CommunityApplicationTests {
 
     @Autowired
-    QuestionMapper questionMapper;
+    QuestionExtMapper questionExtMapper;
 
     @Test
     public void testPanigtion() {
