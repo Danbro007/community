@@ -264,4 +264,13 @@ public class Comment {
     public void setParentId(Long parentId) {
         this.parentId = parentId;
     }
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

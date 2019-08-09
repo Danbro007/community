@@ -73,14 +73,12 @@ public class CommentService {
      *
      * @return 评论
      */
-    public PageInfo<Comment> getCommentByQuestionId(Long id, Integer page, Integer size) {
-        PageHelper.startPage(page, size);
+    public List<CommentDto> getCommentByQuestionId(Long id) {
         CommentExample commentExample = new CommentExample();
         commentExample.createCriteria().andParentIdEqualTo(id).andTypeEqualTo(CommentTypeEnum.QUESTION.getType());
         List<Comment> comments = commentMapper.selectByExample(commentExample);
-        PageInfo<Comment> commentPageInfo = new PageInfo<>(comments);
         if (comments.size() == 0) {
-            return new PageInfo<>(new ArrayList<>());
+            return new ArrayList<>();
         }
         //找到所有评论这个问题的用户ID集合
         Set<Integer> commenters = comments.stream().map(comment -> comment.getCommenter()).collect(Collectors.toSet());
@@ -94,21 +92,13 @@ public class CommentService {
         Map<Integer, User> userMap = users.stream().collect(Collectors.toMap(user -> user.getId(), user -> user));
 
         //comment转换成commentDto
-//        List<CommentDto> commentDtos = comments.stream().map(comment -> {
-//            CommentDto commentDto = new CommentDto();
-//            BeanUtils.copyProperties(comment, commentDto);
-//            commentDto.setUser(userMap.get(commentDto.getCommenter()));
-//            return commentDto;
-//        }).collect(Collectors.toList());
-
-        for (Comment comment : commentPageInfo.getList()) {
+        List<CommentDto> commentDtos = comments.stream().map(comment -> {
             CommentDto commentDto = new CommentDto();
             BeanUtils.copyProperties(comment, commentDto);
-            commentDto.setUser(userMap.get(comment.getCommenter()));
-            comment = commentDto;
-//            commentPageInfo.getList().add(commentDto);
-        }
+            commentDto.setUser(userMap.get(commentDto.getCommenter()));
+            return commentDto;
+        }).collect(Collectors.toList());
 
-        return commentPageInfo;
+        return commentDtos;
     }
 }

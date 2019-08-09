@@ -330,4 +330,13 @@ public class Question {
     public void setTag(String tag) {
         this.tag = tag == null ? null : tag.trim();
     }
+    public User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

@@ -37,9 +37,9 @@ public class ProfileController {
                 model.addAttribute("sectionName", "我的问题");
                 model.addAttribute("section", action);
                 System.out.println(user.getId());
-                PageInfo<QuestionDto> questionDtos = questionService.getQuestionByUserId(user.getId(), page, size);
+                PageInfo<Question> question = questionService.getQuestionByUserId(user.getId(), page, size);
 
-                model.addAttribute("questions", questionDtos);
+                model.addAttribute("questions", question);
             } else {
                 model.addAttribute("sectionName", "我的回复");
                 model.addAttribute("section", action);

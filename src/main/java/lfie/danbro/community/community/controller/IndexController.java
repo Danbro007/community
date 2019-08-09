@@ -22,8 +22,8 @@ public class IndexController {
                         @RequestParam(value = "page",defaultValue = "1") Integer page,
                         @RequestParam(value = "size",defaultValue = "5") Integer size){
 
-        PageInfo<QuestionDto> questionDtos = questionService.getQuestionList(page,size);
-        model.addAttribute("questions",questionDtos);
+        PageInfo<Question> question = questionService.getQuestionList(page,size);
+        model.addAttribute("questions",question);
         return "index";
     }
 

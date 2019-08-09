@@ -27,16 +27,15 @@ public class QuestionController {
 
     @Autowired
     CommentService commentService;
+
     @GetMapping("/question/{id}")
     public String questionView(@PathVariable("id") Long id,
-                               @RequestParam(value = "page",defaultValue = "1") Integer page,
-                               @RequestParam(value = "size",defaultValue = "5") Integer size,
-                               Model model){
+                               Model model) {
         QuestionDto questionDto = questionService.getQuestionById(id);
-        model.addAttribute("question",questionDto);
+        model.addAttribute("question", questionDto);
         questionService.increaseViewCount(questionDto.getId());
-        PageInfo<Comment> commentDtos = commentService.getCommentByQuestionId(id,page,size);
-        model.addAttribute("comments",commentDtos);
+        List<CommentDto> commentDtos = commentService.getCommentByQuestionId(id);
+        model.addAttribute("comments", commentDtos);
         return "question";
     }
 
