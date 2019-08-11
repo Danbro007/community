@@ -1,9 +1,9 @@
 package lfie.danbro.community.community.service;
 
 
+import lfie.danbro.community.community.model.UserExample;
 import lfie.danbro.community.community.mapper.UserMapper;
 import lfie.danbro.community.community.model.User;
-import lfie.danbro.community.community.model.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

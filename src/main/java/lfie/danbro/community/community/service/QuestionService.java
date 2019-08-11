@@ -5,19 +5,18 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lfie.danbro.community.community.Exception.CustomizeErrorCode;
 import lfie.danbro.community.community.Exception.CustomizeExpection;
-import lfie.danbro.community.community.dto.QuestionDto;
-import lfie.danbro.community.community.mapper.QuestionExtMapper;
 import lfie.danbro.community.community.mapper.QuestionMapper;
-import lfie.danbro.community.community.mapper.UserMapper;
 import lfie.danbro.community.community.model.Question;
 import lfie.danbro.community.community.model.QuestionExample;
-import lfie.danbro.community.community.model.User;
 import lfie.danbro.community.community.model.UserExample;
+import lfie.danbro.community.community.dto.QuestionDto;
+import lfie.danbro.community.community.mapper.QuestionExtMapper;
+import lfie.danbro.community.community.mapper.UserMapper;
+import lfie.danbro.community.community.model.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,19 +38,10 @@ public class QuestionService {
      * @param size 每页数量
      * @return 问题列表
      */
-    public PageInfo<Question> getQuestionList(Integer page, Integer size) {
+    public PageInfo<QuestionDto> getALLQuestionDtos(Integer page, Integer size) {
         PageHelper.startPage(page, size);
-        QuestionExample questionExample = new QuestionExample();
-        questionExample.createCriteria();
-        List<Question> questions = questionMapper.selectByExample(questionExample);
-        PageInfo<Question> questionPageInfo = new PageInfo<>(questions);
-        for (Question question : questionPageInfo.getList()) {
-            UserExample userExample = new UserExample();
-            userExample.createCriteria().andIdEqualTo(question.getCreator());
-            List<User> users = userMapper.selectByExample(userExample);
-            question.setUser(users.get(0));
-        }
-        return questionPageInfo;
+        List<QuestionDto> questionDtos = questionExtMapper.getAllQuestionDtos();
+       return new PageInfo<>(questionDtos);
     }
 
     /**
@@ -62,20 +52,11 @@ public class QuestionService {
      * @param size   每页展示的问题数量
      * @return 问题列表
      */
-    public PageInfo<Question> getQuestionByUserId(Integer userId, Integer page, Integer size) {
+    public PageInfo<QuestionDto> getAllQuestionDtosByUserId(Integer userId, Integer page, Integer size) {
         //分页器
         PageHelper.startPage(page, size);
-        QuestionExample questionExample = new QuestionExample();
-        questionExample.createCriteria().andCreatorEqualTo(userId);
-        List<Question> questions = questionMapper.selectByExample(questionExample);
-        PageInfo<Question> questionPageInfo = new PageInfo<>(questions);
-        for (Question question : questions) {
-            UserExample userExample = new UserExample();
-            userExample.createCriteria().andIdEqualTo(question.getCreator());
-            List<User> users = userMapper.selectByExample(userExample);
-            question.setUser(users.get(0));
-        }
-        return questionPageInfo;
+        List<QuestionDto> questionDtos = questionExtMapper.getAllQuestionDtosByUserId(userId);
+        return new PageInfo<>(questionDtos);
     }
 
     /**

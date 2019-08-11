@@ -10,7 +10,6 @@
 </head>
 <body style="background-color: #efefef">
 <nav th:replace="~{bar::topbar}"></nav>
-t
 <div class="container-fluid" style="background-color: white;margin: 30px">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
@@ -20,7 +19,7 @@ t
                 <div class="media-left">
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${question.title}"></h4>
+                    <h4 class="media-heading" th:text="${question.title}" th:href="@{'/question/' + ${question.id}}"></h4>
                     <span th:text="${question.description}"></span>
                     <div>
                         <span th:text="${question.commentCount}"></span>个回复

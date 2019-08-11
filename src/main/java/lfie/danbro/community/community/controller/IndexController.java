@@ -3,7 +3,6 @@ package lfie.danbro.community.community.controller;
 
 import com.github.pagehelper.PageInfo;
 import lfie.danbro.community.community.dto.QuestionDto;
-import lfie.danbro.community.community.model.Question;
 import lfie.danbro.community.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,8 +21,8 @@ public class IndexController {
                         @RequestParam(value = "page",defaultValue = "1") Integer page,
                         @RequestParam(value = "size",defaultValue = "5") Integer size){
 
-        PageInfo<Question> question = questionService.getQuestionList(page,size);
-        model.addAttribute("questions",question);
+        PageInfo<QuestionDto> questionDtos = questionService.getALLQuestionDtos(page,size);
+        model.addAttribute("questions",questionDtos);
         return "index";
     }
 

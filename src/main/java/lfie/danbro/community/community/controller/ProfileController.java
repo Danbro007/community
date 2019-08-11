@@ -28,6 +28,7 @@ public class ProfileController {
                               @RequestParam(value = "size", defaultValue = "5") Integer size,
                               HttpServletRequest request,
                               Model model) {
+
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
             model.addAttribute("error", "用户未登录");
@@ -37,9 +38,9 @@ public class ProfileController {
                 model.addAttribute("sectionName", "我的问题");
                 model.addAttribute("section", action);
                 System.out.println(user.getId());
-                PageInfo<Question> question = questionService.getQuestionByUserId(user.getId(), page, size);
+                PageInfo<QuestionDto> questionDtos = questionService.getAllQuestionDtosByUserId(user.getId(), page, size);
 
-                model.addAttribute("questions", question);
+                model.addAttribute("questions", questionDtos);
             } else {
                 model.addAttribute("sectionName", "我的回复");
                 model.addAttribute("section", action);

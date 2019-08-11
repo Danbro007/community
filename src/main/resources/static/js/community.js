@@ -11,8 +11,8 @@ function addComment() {
             "type":1
         }),
         success:function (res) {
-            if(res.code == 200){
-                $("#commentBox").hide();
+            if(res.code == 2000){
+                window.location.reload();
             }else{
                 if (res.code == 4003){
                     var isAccpeted = confirm(res.message);

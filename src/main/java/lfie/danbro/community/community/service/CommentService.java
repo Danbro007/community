@@ -3,12 +3,13 @@ package lfie.danbro.community.community.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sun.org.apache.regexp.internal.RE;
 import lfie.danbro.community.community.Enum.CommentTypeEnum;
+import lfie.danbro.community.community.dto.QuestionDto;
+import lfie.danbro.community.community.mapper.CommentExtMapper;
+import lfie.danbro.community.community.mapper.CommentMapper;
 import lfie.danbro.community.community.Exception.CustomizeErrorCode;
 import lfie.danbro.community.community.Exception.CustomizeExpection;
 import lfie.danbro.community.community.dto.CommentDto;
-import lfie.danbro.community.community.mapper.CommentMapper;
 import lfie.danbro.community.community.mapper.UserMapper;
 import lfie.danbro.community.community.model.*;
 import org.springframework.beans.BeanUtils;
@@ -27,6 +28,8 @@ public class CommentService {
 
     @Autowired
     CommentMapper commentMapper;
+    @Autowired
+    CommentExtMapper commentExtMapper;
 
     @Autowired
     QuestionService questionService;
@@ -73,32 +76,10 @@ public class CommentService {
      *
      * @return 评论
      */
-    public List<CommentDto> getCommentByQuestionId(Long id) {
-        CommentExample commentExample = new CommentExample();
-        commentExample.createCriteria().andParentIdEqualTo(id).andTypeEqualTo(CommentTypeEnum.QUESTION.getType());
-        List<Comment> comments = commentMapper.selectByExample(commentExample);
-        if (comments.size() == 0) {
-            return new ArrayList<>();
-        }
-        //找到所有评论这个问题的用户ID集合
-        Set<Integer> commenters = comments.stream().map(comment -> comment.getCommenter()).collect(Collectors.toSet());
-        List<Integer> userIdList = new ArrayList<>();
-        userIdList.addAll(commenters);
-        //获得user的对象
-        UserExample userExample = new UserExample();
-        userExample.createCriteria().andIdIn(userIdList);
-        List<User> users = userMapper.selectByExample(userExample);
-        //得到user的map k->user.id v->user
-        Map<Integer, User> userMap = users.stream().collect(Collectors.toMap(user -> user.getId(), user -> user));
+    public PageInfo<CommentDto> getCommentsByQuestionId(Long id,Integer page,Integer size) {
+        PageHelper.startPage(page,size);
+        List<CommentDto> comments = commentExtMapper.getCommentsByQuestionId(id);
+        return new PageInfo<>(comments);
 
-        //comment转换成commentDto
-        List<CommentDto> commentDtos = comments.stream().map(comment -> {
-            CommentDto commentDto = new CommentDto();
-            BeanUtils.copyProperties(comment, commentDto);
-            commentDto.setUser(userMap.get(commentDto.getCommenter()));
-            return commentDto;
-        }).collect(Collectors.toList());
-
-        return commentDtos;
     }
 }

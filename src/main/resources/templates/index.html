@@ -28,7 +28,7 @@
                 <div class="media-left">
                     <a href="#">
                         <img style="height: 38px;width: 38px" class="media-object"
-                             th:src="${question.user.avatarUrl}">
+                             th:src="${question.getUser().getAvatarUrl()}">
                     </a>
                 </div>
                 <div class="media-body">
@@ -47,6 +47,7 @@
             <nav aria-label="Page navigation" style="float: right">
                 <ul class="pagination">
                     <li>
+
                         <a th:href="@{/(page=${questions.getPrePage()})}" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
