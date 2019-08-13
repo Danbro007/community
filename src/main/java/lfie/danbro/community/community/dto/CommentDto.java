@@ -6,7 +6,5 @@ import lombok.Data;
 
 @Data
 public class CommentDto extends Comment {
-
     private User user;
-
 }

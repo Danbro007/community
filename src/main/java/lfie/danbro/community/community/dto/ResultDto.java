@@ -10,6 +10,7 @@ public class ResultDto {
 
     private String message;
     private Integer code;
+    private Object data;
 
     public static ResultDto errorOf(Integer code,String message){
         ResultDto resultDto = new ResultDto();
@@ -29,6 +30,14 @@ public class ResultDto {
         ResultDto resultDto = new ResultDto();
         resultDto.setCode(code.getCode());
         resultDto.setMessage(code.getMessage());
+        return resultDto;
+    }
+
+    public static ResultDto successOf(CustomizeErrorCode code,Object data) {
+        ResultDto resultDto = new ResultDto();
+        resultDto.setCode(code.getCode());
+        resultDto.setMessage(code.getMessage());
+        resultDto.setData(data);
         return resultDto;
     }
 

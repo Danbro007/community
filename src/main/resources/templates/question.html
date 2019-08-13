@@ -9,6 +9,7 @@
     <script src="/js/jquery-3.4.1.min.js"></script>
     <script src="/js/community.js"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="/js/moment.js" type="application/javascript"></script>
 
 </head>
 <body style="background-color: #efefef">
@@ -36,6 +37,7 @@
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h4 th:text="${question.commentCount} + 个回复" style="margin-left: 20px"></h4>
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <!--父评论列表-->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 menu" th:each="comment:${comments.list}">
                 <div class="media">
                     <div class="media-left">
@@ -44,22 +46,45 @@
                                  th:src="${comment.user.avatarUrl}">
                         </a>
                     </div>
-                    <div class="media-body">
-                        <h5 class="media-heading" style="padding: 10px;font-size: 15px;margin-top: -10px" th:text="${comment.user.getName()}"></h5>
+                    <div class="media-body" th:id="${'comment-body-' + comment.id}">
+                        <h5 class="media-heading" style="padding: 10px;font-size: 15px;margin-top: -10px"
+                            th:text="${comment.user.getName()}"></h5>
                         <div style="margin-left: 10px;font-size: 12px" th:text="${comment.getContent()}"></div>
                         <div style="margin-top: 10px;margin-bottom: 0">
                             <span class="glyphicon glyphicon-thumbs-up icon"></span>
-                            <span class="glyphicon glyphicon-comment icon"></span>
-                            <span class="pull-right icon" th:text="${#dates.format(comment.getGmtCreate(),'yyyy-MM-dd')}"></span>
+                            <span th:data-id="${comment.id}" onclick="collapseComments(this)">
+                                <span class="glyphicon glyphicon-comment icon"></span>
+                                <span th:text="${comment.commentCount}"
+                                      style="font-size: 15px;color: #999999"></span>
+                            </span>
+                            <span class="pull-right icon"
+                                  th:text="${#dates.format(comment.getGmtCreate(),'yyyy-MM-dd')}"></span>
                         </div>
+                        <!---二级评论-->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 collapse" th:id="${'comment-' + comment.id}"
+                             style="margin-top: 10px;border: 1px solid #eeeeee ;padding-top: 15px;border-radius: 10px">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <input type="text" class="form-control" placeholder="评论一下...."
+                                       th:id="'input-' + ${comment.id}">
+                                <button type="button" class="btn btn-success"
+                                        style="float: right;margin-top: 10px;margin-bottom: 10px"
+                                        onclick="addComment2Comment(this)" th:data-id="${comment.id}">回复
+                                </button>
+                            </div>
+
+                        </div>
+
                     </div>
+                    <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: 10px">
                 </div>
-                <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: 10px">
             </div>
+
+            <!--分页器-->
             <nav aria-label="Page navigation" style="float: right">
                 <ul class="pagination">
                     <li>
-                        <a th:href="@{'/question/' + ${question.id}(page=${comments.getPrePage()})}" aria-label="Previous">
+                        <a th:href="@{'/question/' + ${question.id}(page=${comments.getPrePage()})}"
+                           aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
@@ -68,7 +93,8 @@
                         <a th:href="@{'/question/' + ${question.id}(page=${page})}" th:text="${page}"></a>
                     </li>
                     <li>
-                        <a th:href="@{'/question/' + ${question.id}(page=${comments.getNextPage()})}" aria-label="Next">
+                        <a th:href="@{'/question/' + ${question.id}(page=${comments.getNextPage()})}"
+                           aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
@@ -85,15 +111,17 @@
                         </a>
                     </div>
                     <div class="media-body">
-                        <h5 class="media-heading" style="padding: 10px;" th:text="${question.user.getName()}"></h5>
+                        <h5 class="media-heading" style="padding: 10px;"
+                            th:text="${question.user.getName()}"></h5>
                     </div>
                 </div>
             </div>
+            <!--评论栏-->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin: 20px 0" id="commentBox">
                 <input type="hidden" id="questionId" th:value="${question.getId()}">
                 <textarea class="form-control" rows="6" id="commentContent"></textarea>
                 <button type="button" class="btn btn-success" style="margin-top: 10px;float: right"
-                        onclick="addComment()">回复
+                        onclick="addComment2Question()">回复
                 </button>
             </div>
 
@@ -117,13 +145,8 @@
             <div class="col-lg-12 col-xs-12 col-md-12 col-sm-12">
                 <h4>相关问题</h4>
             </div>
-
         </div>
-
-
     </div>
-
-
 </div>
 
 </body>

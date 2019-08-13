@@ -4,24 +4,19 @@ package lfie.danbro.community.community.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lfie.danbro.community.community.Enum.CommentTypeEnum;
-import lfie.danbro.community.community.dto.QuestionDto;
-import lfie.danbro.community.community.mapper.CommentExtMapper;
-import lfie.danbro.community.community.mapper.CommentMapper;
 import lfie.danbro.community.community.Exception.CustomizeErrorCode;
 import lfie.danbro.community.community.Exception.CustomizeExpection;
 import lfie.danbro.community.community.dto.CommentDto;
+import lfie.danbro.community.community.mapper.CommentExtMapper;
+import lfie.danbro.community.community.mapper.CommentMapper;
 import lfie.danbro.community.community.mapper.UserMapper;
-import lfie.danbro.community.community.model.*;
-import org.springframework.beans.BeanUtils;
+import lfie.danbro.community.community.model.Comment;
+import lfie.danbro.community.community.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -53,11 +48,18 @@ public class CommentService {
         //类型为评论
         if (comment.getType() == CommentTypeEnum.COMMENT.getType()) {
             //先查找父评论
-            Comment parentComment = commentMapper.selectByPrimaryKey(comment.getParentId());
-            if (parentComment == null) {//找不到父评论抛出异常
+            Comment dbComment = commentMapper.selectByPrimaryKey(comment.getParentId());
+            if (dbComment == null) {//找不到父评论抛出异常
                 throw new CustomizeExpection(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
+
             commentMapper.insert(comment);
+            Comment parentComment = new Comment();
+            parentComment.setId(comment.getParentId());
+            parentComment.setCommentCount(1);
+            commentExtMapper.increaseCommentCount(parentComment);
+
+
         } else {//类型为问题
             Question question = questionService.selectByPrimaryKey(comment.getParentId());
             if (question == null) {
@@ -76,10 +78,9 @@ public class CommentService {
      *
      * @return 评论
      */
-    public PageInfo<CommentDto> getCommentsByQuestionId(Long id,Integer page,Integer size) {
-        PageHelper.startPage(page,size);
-        List<CommentDto> comments = commentExtMapper.getCommentsByQuestionId(id);
+    public PageInfo<CommentDto> getCommentsByTargetId(Long id, Integer page, Integer size, CommentTypeEnum type) {
+        PageHelper.startPage(page, size);
+        List<CommentDto> comments = commentExtMapper.getCommentsByTargetId(id, type.getType());
         return new PageInfo<>(comments);
-
     }
 }

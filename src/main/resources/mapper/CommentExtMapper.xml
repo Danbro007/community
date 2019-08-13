@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="lfie.danbro.community.community.mapper.CommentExtMapper">
-  <resultMap id="myComment" type="lfie.danbro.community.community.dto.CommentDto">
-      <id column="id" jdbcType="BIGINT" property="id" />
-      <result column="commenter" jdbcType="INTEGER" property="commenter" />
-      <result column="type" jdbcType="INTEGER" property="type" />
-      <result column="gmt_create" jdbcType="BIGINT" property="gmtCreate" />
-      <result column="gmt_modified" jdbcType="BIGINT" property="gmtModified" />
-      <result column="content" jdbcType="VARCHAR" property="content" />
-      <result column="like_count" jdbcType="BIGINT" property="likeCount" />
-      <result column="parent_id" jdbcType="BIGINT" property="parentId" />
-      <association property="user" javaType="lfie.danbro.community.community.model.User">
-          <id property="id" column="id"/>
-          <result property="name" column="name"/>
-          <result property="avatarUrl" column="avatar_url"></result>
-          <result property="accountId" column="account_id"></result>
-      </association>
+    <resultMap id="myComment" type="lfie.danbro.community.community.dto.CommentDto">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="commenter" jdbcType="INTEGER" property="commenter"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="gmt_create" jdbcType="BIGINT" property="gmtCreate"/>
+        <result column="gmt_modified" jdbcType="BIGINT" property="gmtModified"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="like_count" jdbcType="BIGINT" property="likeCount"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+        <result column="comment_count" jdbcType="INTEGER" property="commentCount"/>
+        <association property="user" javaType="lfie.danbro.community.community.model.User">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+            <result property="avatarUrl" column="avatar_url"></result>
+            <result property="accountId" column="account_id"></result>
+        </association>
 
 
-  </resultMap>
+    </resultMap>
 
 
     <!--通过问题id找到所有一级评论-->
-    <select id="getCommentsByQuestionId" resultMap="myComment">
+    <select id="getCommentsByTargetId" resultMap="myComment">
         SELECT * FROM `comment`c LEFT JOIN `user` u on
         c.commenter = u.id
         WHERE
-        c.parent_id = #{id} order by c.gmt_create desc
+        c.parent_id = #{id} and c.type = #{type} order by c.gmt_create desc
     </select>
-
-
+    <update id="increaseCommentCount" parameterType="lfie.danbro.community.community.model.Comment">
+        UPDATE comment
+        SET comment_count = comment_count + #{commentCount,jdbcType=INTEGER}
+        WHERE id = #{id}
+  </update>
 
 
 </mapper>

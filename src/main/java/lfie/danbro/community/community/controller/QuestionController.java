@@ -2,6 +2,7 @@ package lfie.danbro.community.community.controller;
 
 
 import com.github.pagehelper.PageInfo;
+import lfie.danbro.community.community.Enum.CommentTypeEnum;
 import lfie.danbro.community.community.service.CommentService;
 import lfie.danbro.community.community.dto.CommentDto;
 import lfie.danbro.community.community.dto.QuestionDto;
@@ -32,9 +33,10 @@ public class QuestionController {
         QuestionDto questionDto = questionService.getQuestionById(id);
         model.addAttribute("question", questionDto);
         questionService.increaseViewCount(questionDto.getId());
-        PageInfo<CommentDto> commentDtos = commentService.getCommentsByQuestionId(id,page,size);
+        PageInfo<CommentDto> commentDtos = commentService.getCommentsByTargetId(id,page,size,CommentTypeEnum.QUESTION);
         model.addAttribute("comments", commentDtos);
         return "question";
     }
+
 
 }
