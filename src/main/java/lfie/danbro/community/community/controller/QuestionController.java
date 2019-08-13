@@ -31,10 +31,12 @@ public class QuestionController {
                                @RequestParam(value = "size",defaultValue = "5") Integer size,
                                Model model) {
         QuestionDto questionDto = questionService.getQuestionById(id);
-        model.addAttribute("question", questionDto);
         questionService.increaseViewCount(questionDto.getId());
+        List<QuestionDto> relatedQuestionDtos = questionService.getRelatedQuestions(questionDto);
         PageInfo<CommentDto> commentDtos = commentService.getCommentsByTargetId(id,page,size,CommentTypeEnum.QUESTION);
         model.addAttribute("comments", commentDtos);
+        model.addAttribute("question", questionDto);
+        model.addAttribute("relatedQuestions",relatedQuestionDtos);
         return "question";
     }
 

@@ -16,6 +16,7 @@ import lfie.danbro.community.community.model.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -128,5 +129,18 @@ public class QuestionService {
      */
     public Question selectByPrimaryKey(Long id) {
         return questionMapper.selectByPrimaryKey(id);
+    }
+
+    /**
+     * 通过问题的tag属性找到相关的问题
+     * @param questionDto 要查询相关的问题
+     * @return 相关问题列表
+     */
+    public List<QuestionDto> getRelatedQuestions(QuestionDto questionDto) {
+        QuestionDto relatedQuestionDto = new QuestionDto();
+        relatedQuestionDto.setTag(StringUtils.replace(questionDto.getTag(),",","|"));
+        relatedQuestionDto.setId(questionDto.getId());
+        List<QuestionDto> relatedQuestions = questionExtMapper.getRelatedQuestions(relatedQuestionDto);
+        return relatedQuestions;
     }
 }

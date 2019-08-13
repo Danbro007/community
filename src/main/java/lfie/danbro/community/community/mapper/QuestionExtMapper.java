@@ -10,4 +10,5 @@ public interface QuestionExtMapper {
     int increaseCommentCount(Question question);
     List<QuestionDto> getAllQuestionDtos();
     List<QuestionDto> getAllQuestionDtosByUserId(Integer id);
+    List<QuestionDto> getRelatedQuestions(Question question);
 }
