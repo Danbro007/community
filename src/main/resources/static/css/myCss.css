@@ -44,3 +44,9 @@
     font-size: 14px;
     margin-left: -40px;
 }
+
+.categoryTag{
+    margin: 5px 10px 5px 0;
+    white-space: normal;
+    display: inline-block;
+}

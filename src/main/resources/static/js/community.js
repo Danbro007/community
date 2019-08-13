@@ -1,12 +1,18 @@
 function addComment2Question() {
     var content = $("#commentContent").val();
     var questionId = $("#questionId").val();
+    if (!content){
+        alert("回答内容不能为空!")
+    }
     comment2target(questionId, 1, content);
 }
 
 function addComment2Comment(e) {
     var commentId = e.getAttribute("data-id");
     var content = $("#input-" + commentId).val();
+    if (!content){
+        alert("回答内容不能为空!")
+    }
     comment2target(commentId, 2, content)
 }
 
@@ -105,7 +111,24 @@ function collapseComments(e) {
                 e.classList.add("active");
             })
         }
+    }
+}
 
+/*
+* 展示标签选择框
+* */
+function showSelectTags() {
+    $("#question-tag").show();
+}
 
+function selectTag(e) {
+    var value = e.getAttribute("data-tag");
+    var previous = $("#tag").val();
+    if (previous.indexOf(value) == -1){
+        if (previous){
+            $("#tag").val(previous  + "," + value)
+        } else{
+            $("#tag").val(value);
+        }
     }
 }

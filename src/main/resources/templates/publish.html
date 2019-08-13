@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
     <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/community.js"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
     <link rel="stylesheet" href="css/myCss.css">
 
@@ -30,7 +31,21 @@
                 </div>
                 <div class="form-group">
                     <label for="tag">添加标题:</label>
-                    <input type="text" class="form-control" id="tag" placeholder="输入标签,以,号分隔" name="tag" th:value="${tag}" autocomplete="off">
+                    <input type="text" class="form-control" id="tag" placeholder="输入标签,以,号分隔" name="tag" th:value="${tag}" autocomplete="off" onclick="showSelectTags()">
+                    <div id="question-tag" style="display: none">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" th:each="category,categoryStat:${tags}" th:class="${categoryStat.first?'active':''}">
+                                <a th:href="${'#' + category.getCategoryEnName()}" aria-controls="home" role="tab" data-toggle="tab"  th:text="${category.getCategoryName()}"></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" style="margin-top: 10px">
+                            <div role="tabpanel" style="font-size: 14px" th:id="${category.getCategoryEnName()}" th:each="category,categoryStat:${tags}" th:class="${categoryStat.first?'tab-pane active':'tab-pane'}">
+                                <span class="label label-info categoryTag" th:each="selectTag:${category.tags}">
+                                    <span th:text="${selectTag}" onclick="selectTag(this)" th:data-tag = "${selectTag}"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="container-fluid">
                     <div class="row">
