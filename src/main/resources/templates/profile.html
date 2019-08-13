@@ -19,13 +19,16 @@
                 <div class="media-left">
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${question.title}" th:href="@{'/question/' + ${question.id}}"></h4>
+                    <h4>
+                        <a class="media-heading" th:text="${question.title}" th:href="@{'/question/' + ${question.id}}"></a>
+                    </h4>
                     <span th:text="${question.description}"></span>
                     <div>
                         <span th:text="${question.commentCount}"></span>个回复
                         <span th:text="${question.viewCount}"></span>次浏览
                         <span th:text="${question.likeCount}"></span>个赞
                         <span th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
+                        <a th:href="@{'/publish/' + ${question.id}}" style="color: #999999;font-size: 13px" class="glyphicon glyphicon-edit">编辑</a>
                     </div>
                 </div>
             </div>
