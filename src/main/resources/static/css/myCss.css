@@ -50,3 +50,10 @@
     white-space: normal;
     display: inline-block;
 }
+
+.unreadIcon{
+    height: 20px;
+    width: 50px;
+    font-size: 12px;
+    line-height: 10px;
+}

@@ -4,14 +4,15 @@ import com.github.pagehelper.PageInfo;
 import com.sun.org.apache.xpath.internal.SourceTree;
 import lfie.danbro.community.community.Enum.CommentTypeEnum;
 import lfie.danbro.community.community.dto.CommentDto;
+import lfie.danbro.community.community.dto.NotificationDto;
 import lfie.danbro.community.community.dto.QuestionDto;
-import lfie.danbro.community.community.mapper.CommentExtMapper;
-import lfie.danbro.community.community.mapper.CommentMapper;
-import lfie.danbro.community.community.mapper.QuestionExtMapper;
+import lfie.danbro.community.community.mapper.*;
 import lfie.danbro.community.community.model.Comment;
+import lfie.danbro.community.community.model.Notification;
 import lfie.danbro.community.community.model.Question;
 import lfie.danbro.community.community.model.User;
 import lfie.danbro.community.community.service.CommentService;
+import lfie.danbro.community.community.service.NotificationService;
 import lfie.danbro.community.community.service.QuestionService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,11 +31,16 @@ public class CommunityApplicationTests {
 
     @Autowired
     QuestionService questionService;
-
+    @Autowired
+    NotificationService notificationService;
+    @Autowired
+    NotificationMapper notificationMapper;
     @Autowired
     QuestionExtMapper questionExtMapper;
     @Autowired
     CommentExtMapper commentExtMapper;
+    @Autowired
+    NotificationExtMapper notificationExtMapper;
 
     @Autowired
     CommentService commentService;
@@ -81,6 +87,22 @@ public class CommunityApplicationTests {
         String tag = "spring,Java";
         String replace = StringUtils.replace(tag, ",", "|");
         System.out.println(replace);
+    }
+
+    @Test
+    public void testGetNotification(){
+        PageInfo<NotificationDto> notifications = notificationService.getNotifications(29, 1, 5);
+        for (NotificationDto notificationDto : notifications.getList()) {
+            System.out.println(notificationDto);
+        }
+    }
+
+
+    @Test
+    public void testUpdateNotification(){
+
+        Notification notification = notificationService.getNotificationByUserId(1L, 29);
+        System.out.println("111");
     }
 
 }

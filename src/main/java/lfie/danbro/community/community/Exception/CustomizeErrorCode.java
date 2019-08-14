@@ -6,7 +6,8 @@ public enum CustomizeErrorCode implements MyCustomizeErrorCode {
     NO_LOGIN(4003, "请先登录!"),
     SUCCESS(2000, "成功!"),
     SERVER_ERROR(5000, "服务器出错!"),
-    COMMENT_PARAM_ERROR(4004,"评论类型错误!");
+    COMMENT_PARAM_ERROR(4004,"评论类型错误!"),
+    NOTIFICATION_NOT_FOUND(4005,"通知不存在!");
     private String message;
     private Integer code;
 

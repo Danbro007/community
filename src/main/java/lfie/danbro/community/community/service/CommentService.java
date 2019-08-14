@@ -4,13 +4,13 @@ package lfie.danbro.community.community.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lfie.danbro.community.community.Enum.CommentTypeEnum;
+import lfie.danbro.community.community.Enum.NotificationStatusEnum;
 import lfie.danbro.community.community.Exception.CustomizeErrorCode;
 import lfie.danbro.community.community.Exception.CustomizeExpection;
 import lfie.danbro.community.community.dto.CommentDto;
-import lfie.danbro.community.community.mapper.CommentExtMapper;
-import lfie.danbro.community.community.mapper.CommentMapper;
-import lfie.danbro.community.community.mapper.UserMapper;
+import lfie.danbro.community.community.mapper.*;
 import lfie.danbro.community.community.model.Comment;
+import lfie.danbro.community.community.model.Notification;
 import lfie.danbro.community.community.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +32,12 @@ public class CommentService {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    NotificationMapper notificationMapper;
+
+    @Autowired
+    QuestionMapper questionMapper;
+
     /**
      * 添加评论
      *
@@ -52,14 +58,17 @@ public class CommentService {
             if (dbComment == null) {//找不到父评论抛出异常
                 throw new CustomizeExpection(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
+            Question question = questionMapper.selectByPrimaryKey(dbComment.getParentId());
+            if (question == null){
+                throw new CustomizeExpection(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
 
             commentMapper.insert(comment);
             Comment parentComment = new Comment();
             parentComment.setId(comment.getParentId());
             parentComment.setCommentCount(1);
             commentExtMapper.increaseCommentCount(parentComment);
-
-
+            creteNotification(comment,comment.getContent(), dbComment.getCommenter(),CommentTypeEnum.COMMENT,question.getId());
         } else {//类型为问题
             Question question = questionService.selectByPrimaryKey(comment.getParentId());
             if (question == null) {
@@ -69,7 +78,28 @@ public class CommentService {
             commentMapper.insert(comment);
             //更新评论数
             questionService.increaseCommentCount(question.getId());
+            creteNotification(comment,question.getTitle(),question.getCreator(),CommentTypeEnum.QUESTION,question.getId());
+
+
         }
+    }
+
+    /**
+     * 通过通知者id 被通知者id 和评论类型插入一条通知记录
+     * @param comment 评论对象
+     * @param reciever 被通知者id
+     * @param commentTypeEnum 评论类型
+     */
+    private void creteNotification(Comment comment,String tittle,Integer reciever,CommentTypeEnum commentTypeEnum,Long outerId) {
+        Notification notification = new Notification();
+        notification.setGmtCreate(System.currentTimeMillis());
+        notification.setNotifier(comment.getCommenter());
+        notification.setOuterTittle(tittle);
+        notification.setOuterId(outerId);
+        notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+        notification.setType(commentTypeEnum.getType());
+        notification.setReciever(reciever);
+        notificationMapper.insert(notification);
     }
 
 
