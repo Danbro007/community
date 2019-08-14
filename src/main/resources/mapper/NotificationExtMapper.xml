@@ -24,6 +24,6 @@
         SELECT n.*,u.name
         FROM notification n LEFT JOIN `user` u
         on
-        n.notifier = u.id where n.reciever = #{reciever}
+        n.notifier = u.id where n.reciever = #{reciever} order by n.gmt_create desc
     </select>
 </mapper>
