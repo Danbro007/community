@@ -57,3 +57,7 @@
     font-size: 12px;
     line-height: 10px;
 }
+
+.errorMessage{
+    color: red;
+}

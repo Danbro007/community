@@ -1,3 +1,5 @@
+
+//对问题回复
 function addComment2Question() {
     var content = $("#commentContent").val();
     var questionId = $("#questionId").val();
@@ -6,7 +8,7 @@ function addComment2Question() {
     }
     comment2target(questionId, 1, content);
 }
-
+//对评论回复
 function addComment2Comment(e) {
     var commentId = e.getAttribute("data-id");
     var content = $("#input-" + commentId).val();
@@ -16,7 +18,7 @@ function addComment2Comment(e) {
     comment2target(commentId, 2, content)
 }
 
-
+//发送评论的ajax方法
 function comment2target(targetId, type, content) {
     $.ajax({
         type: "POST",
@@ -120,7 +122,7 @@ function collapseComments(e) {
 function showSelectTags() {
     $("#question-tag").show();
 }
-
+//添加标签到标签框
 function selectTag(e) {
     var value = e.getAttribute("data-tag");
     var previous = $("#tag").val();

@@ -2,22 +2,31 @@ package lfie.danbro.community.community.controller;
 
 
 import lfie.danbro.community.community.cache.TagCache;
+import lfie.danbro.community.community.dto.QuestionCreateDto;
 import lfie.danbro.community.community.dto.TagDto;
 import lfie.danbro.community.community.model.Question;
 import lfie.danbro.community.community.dto.QuestionDto;
 import lfie.danbro.community.community.model.User;
 import lfie.danbro.community.community.service.QuestionService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 public class PublishController {
@@ -33,36 +42,47 @@ public class PublishController {
     }
 
     @PostMapping("/publish")
-    public String addPublish(
-            @RequestParam("title") String title,
-            @RequestParam("description") String description,
-            @RequestParam("tag") String tags,
-            @RequestParam("id") Long id,
-            HttpServletRequest request,
-            Model model
+    public String addPublish(@Valid QuestionCreateDto questionCreateDto,
+                             BindingResult result,
+                             HttpServletRequest request,
+                             Model model
     ) {
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
             model.addAttribute("error", "用户未登录");
             return "publish";
         } else {
-            String invalid = TagCache.filterTag(tags);
-            if (!StringUtils.isEmpty(invalid)) {
-                model.addAttribute("error", "含有非法标签" + invalid);
+            Map<String,String> errorsMap = new HashMap<>();
+            if (!result.hasErrors()) {
+                String invalid = TagCache.filterTag(questionCreateDto.getTag());
+                if (!StringUtils.isEmpty(invalid)) {
+                    errorsMap.put("tag","含有非法标签" + invalid);
+                    model.addAttribute("errors", errorsMap);
+                    List<TagDto> tagList = TagCache.getTagList();
+                    model.addAttribute("tags", tagList);
+                    return "publish";
+                }else {
+                    Question question = new Question();
+                    BeanUtils.copyProperties(questionCreateDto, question);
+                    question.setCreator(user.getId());
+                    question.setGmtCreate(System.currentTimeMillis());
+                    question.setGmtModified(question.getGmtCreate());
+                    questionService.updateOrInsert(question);
+                    return "redirect:/";
+                }
+
+            } else {
+                List<ObjectError> errors = result.getAllErrors();
+                for (ObjectError error : errors) {
+                    FieldError fieldError = (FieldError) error;
+                    errorsMap.put(fieldError.getField(),error.getDefaultMessage());
+                }
+                model.addAttribute("errors",errorsMap);
+                List<TagDto> tagList = TagCache.getTagList();
+                model.addAttribute("tags", tagList);
                 return "publish";
             }
-            Question question = new Question();
-            question.setId(id);
-            question.setTag(tags);
-            question.setCreator(user.getId());
-            question.setGmtCreate(System.currentTimeMillis());
-            question.setGmtModified(question.getGmtCreate());
-            question.setTitle(title);
-            question.setDescription(description);
-            questionService.updateOrInsert(question);
-            return "redirect:/";
         }
-
     }
 
     @GetMapping("/publish/{id}")

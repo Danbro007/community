@@ -23,14 +23,23 @@
                 <div class="form-group">
                     <input type="hidden" name="id" th:value="${id}">
                     <label for="title">问题目标(简明扼要):</label>
+                    <div th:if="${errors != null}">
+                        <span th:text="${errors.get('title')}" class="errorMessage"></span>
+                    </div>
                     <input type="text" class="form-control" id="title" placeholder="问题标题..." name="title" th:value="${title}">
                 </div>
                 <div class="form-group">
                     <label for="description">问题补充(必填,请按照右侧提示):</label>
+                    <div th:if="${errors != null}">
+                        <span th:text="${errors.get('description')}" class="errorMessage"></span>
+                    </div>
                     <textarea type="email" class="form-control" id="description" style="height: 150px" name="description" th:text="${description}"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="tag">添加标题:</label>
+                    <div th:if="${errors != null}">
+                        <span th:text="${errors.get('tag')}" class="errorMessage"></span>
+                    </div>
                     <input type="text" class="form-control" id="tag" placeholder="输入标签,以,号分隔" name="tag" th:value="${tag}" autocomplete="off" onclick="showSelectTags()">
                     <div id="question-tag" style="display: none">
                         <ul class="nav nav-tabs" role="tablist">
