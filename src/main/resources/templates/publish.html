@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <title>蛋哥社区</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
     <script src="/js/jquery-3.4.1.min.js"></script>
     <script src="/js/community.js"></script>
+    <script src="/js/editormd.min.js"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
     <link rel="stylesheet" href="css/myCss.css">
+    <link rel="stylesheet" href="/css/editormd.css">
 
 </head>
 <body style="background-color: #efefef">
@@ -28,12 +31,27 @@
                     </div>
                     <input type="text" class="form-control" id="title" placeholder="问题标题..." name="title" th:value="${title}">
                 </div>
-                <div class="form-group">
+                <!--markdown编辑器-->
+
+                <div class="form-group" id="question-editor">
                     <label for="description">问题补充(必填,请按照右侧提示):</label>
                     <div th:if="${errors != null}">
                         <span th:text="${errors.get('description')}" class="errorMessage"></span>
                     </div>
-                    <textarea type="email" class="form-control" id="description" style="height: 150px" name="description" th:text="${description}"></textarea>
+                    <textarea type="email" class="form-control" id="description" style="height: 150px;display: none" name="description" th:text="${description}"></textarea>
+                    <script type="text/javascript">
+                        $(function() {
+                            var editor = editormd("question-editor", {
+                                width  : "100%",
+                                height : "500",
+                                path   : "/js/lib/",
+                                delay  : 0,
+                                imageUpload:true,
+                                watch:true,
+                                placeholder:"请输入问题描述..."
+                            });
+                        });
+                    </script>
                 </div>
                 <div class="form-group">
                     <label for="tag">添加标题:</label>
