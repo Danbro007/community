@@ -9,6 +9,7 @@
     <script src="/js/jquery-3.4.1.min.js"></script>
     <script src="/js/community.js"></script>
     <script src="/js/editormd.min.js"></script>
+    <script src="/js/plugins/image-dialog/image-dialog.js"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
     <link rel="stylesheet" href="css/myCss.css">
     <link rel="stylesheet" href="/css/editormd.css">
@@ -47,6 +48,8 @@
                                 path   : "/js/lib/",
                                 delay  : 0,
                                 imageUpload:true,
+                                imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                                imageUploadURL : "/file/upload",
                                 watch:true,
                                 placeholder:"请输入问题描述..."
                             });

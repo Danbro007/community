@@ -5,6 +5,7 @@ spring:
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
@@ -16,5 +17,6 @@ pagehelper:
   support-methods-arguments: true
   params: count=countSql
 
-
+server:
+  port: 8888
 

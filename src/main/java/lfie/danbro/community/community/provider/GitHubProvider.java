@@ -12,7 +12,7 @@ import java.io.IOException;
 @Component
 public class GitHubProvider {
 
-    public String getAccessToken(AccessTokenDto accessTokenDto){
+    public String getAccessToken(AccessTokenDto accessTokenDto) {
         MediaType mediaType = MediaType.get("application/json; charset=utf-8");
         OkHttpClient client = new OkHttpClient();
         RequestBody body = RequestBody.create(mediaType, JSON.toJSONString(accessTokenDto));
@@ -28,7 +28,7 @@ public class GitHubProvider {
         return null;
     }
 
-    public GitHubUser getGitUser(String accessToken){
+    public GitHubUser getGitUser(String accessToken) {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request request = new Request.Builder()
                 .url("https://api.github.com/user?access_token=" + accessToken)
@@ -37,12 +37,11 @@ public class GitHubProvider {
         try {
             Response response = okHttpClient.newCall(request).execute();
             String string = response.body().string();
-            GitHubUser gitHubUser = JSON.parseObject(string,GitHubUser.class);
+            GitHubUser gitHubUser = JSON.parseObject(string, GitHubUser.class);
             return gitHubUser;
         } catch (IOException e) {
         }
         return null;
     }
-
 
 }

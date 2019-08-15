@@ -7,7 +7,8 @@ public enum CustomizeErrorCode implements MyCustomizeErrorCode {
     SUCCESS(2000, "成功!"),
     SERVER_ERROR(5000, "服务器出错!"),
     COMMENT_PARAM_ERROR(4004,"评论类型错误!"),
-    NOTIFICATION_NOT_FOUND(4005,"通知不存在!");
+    NOTIFICATION_NOT_FOUND(4005,"通知不存在!"),
+    FILE_UPLOAD_FAIL(4006,"文件上传失败,请重试.");
     private String message;
     private Integer code;
 
