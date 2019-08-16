@@ -140,7 +140,6 @@ public class QuestionService {
         QuestionDto relatedQuestionDto = new QuestionDto();
         relatedQuestionDto.setTag(StringUtils.replace(questionDto.getTag(),",","|"));
         relatedQuestionDto.setId(questionDto.getId());
-        List<QuestionDto> relatedQuestions = questionExtMapper.getRelatedQuestions(relatedQuestionDto);
-        return relatedQuestions;
+        return  questionExtMapper.getRelatedQuestions(relatedQuestionDto);
     }
 }

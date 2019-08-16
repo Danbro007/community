@@ -1,6 +1,6 @@
-
 //对问题回复
 function addComment2Question() {
+    debugger;
     var content = $("#commentContent").val();
     var questionId = $("#questionId").val();
     if (!content){
@@ -8,11 +8,12 @@ function addComment2Question() {
     }
     comment2target(questionId, 1, content);
 }
+
 //对评论回复
 function addComment2Comment(e) {
     var commentId = e.getAttribute("data-id");
     var content = $("#input-" + commentId).val();
-    if (!content){
+    if (!content) {
         alert("回答内容不能为空!")
     }
     comment2target(commentId, 2, content)
@@ -36,13 +37,23 @@ function comment2target(targetId, type, content) {
                 if (res.code == 4003) {
                     var isAccpeted = confirm(res.message);
                     if (isAccpeted) {
-                        window.open("https://github.com/login/oauth/authorize?client_id=06fdb966a8cbcf08c463&redirect_uri=http://localhost:8888/callback&scope=user&state=1")
+                        window.open("https://github.com/login/oauth/authorize?client_id=06fdb966a8cbcf08c463&redirect_uri=http://localhost:8888/callback&scope=user&state=1");
                         window.localStorage.setItem("closable", true);
-                    } else {
-
                     }
                 }
-                alert(res.message)
+                if (res.code == 4007) {
+                    debugger;
+                    var errors = res.errorMap;
+                    for(var key in errors){
+                        var tag = "#" + key + "-error";
+                        var message = errors[key];
+                        $(tag).text(message);
+                    }
+                }
+                else{
+                    alert(res.message)
+                }
+
             }
         },
         dataType: "json"
@@ -84,7 +95,7 @@ function collapseComments(e) {
                         "html": comment.user.name
                     })).append($("<div/>", {
                         "html": comment.content,
-                        "class":"media-content"
+                        "class": "media-content"
                     })).append($("<div/>", {
                         "class": "menu"
                     }).append($("<span/>", {
@@ -92,9 +103,9 @@ function collapseComments(e) {
                         "html": moment(comment.gmtCreate).format("YYYY-MM-DD")
                     })));
 
-                    var hrElement = $("<hr/>",{
-                        "class":"col-lg-12 col-md-12 col-sm-12 col-xs-12",
-                        "style":"margin-top: 10px"
+                    var hrElement = $("<hr/>", {
+                        "class": "col-lg-12 col-md-12 col-sm-12 col-xs-12",
+                        "style": "margin-top: 10px"
                     });
 
                     var mediaElement = $("<div/>", {
@@ -122,14 +133,15 @@ function collapseComments(e) {
 function showSelectTags() {
     $("#question-tag").show();
 }
+
 //添加标签到标签框
 function selectTag(e) {
     var value = e.getAttribute("data-tag");
     var previous = $("#tag").val();
-    if (previous.indexOf(value) == -1){
-        if (previous){
-            $("#tag").val(previous  + "," + value)
-        } else{
+    if (previous.indexOf(value) == -1) {
+        if (previous) {
+            $("#tag").val(previous + "," + value)
+        } else {
             $("#tag").val(value);
         }
     }

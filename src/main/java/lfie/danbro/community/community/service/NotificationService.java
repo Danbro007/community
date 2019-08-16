@@ -32,15 +32,28 @@ public class NotificationService {
     @Autowired
     NotificationMapper notificationMapper;
 
-
+    /**
+     *
+     * @param reciever 消息接受者
+     * @param page 页数
+     * @param size 每页数量
+     * @return 消息列表
+     */
     public PageInfo<NotificationDto> getNotifications(Integer reciever,Integer page,Integer size){
         PageHelper.startPage(page,size);
         List<NotificationDto> notifications = notificationExtMapper.getNotifications(reciever);
         return new PageInfo<>(notifications);
     }
+
+    /**
+     *
+     * @param notificationId 消息id
+     * @param userId 用户id
+     * @return 消息对象
+     */
     public Notification getNotificationByUserId(Long notificationId,Integer userId){
         NotificationExample notificationExample = new NotificationExample();
-        notificationExample.createCriteria().andIdEqualTo(notificationId).andNotifierEqualTo(userId);
+        notificationExample.createCriteria().andIdEqualTo(notificationId).andRecieverEqualTo(userId);
         List<Notification> notifications = notificationMapper.selectByExample(notificationExample);
         notificationRead(notifications.get(0));
         return notifications.get(0);

@@ -5,17 +5,27 @@ import lfie.danbro.community.community.Exception.CustomizeErrorCode;
 import lfie.danbro.community.community.Exception.CustomizeExpection;
 import lombok.Data;
 
+import java.util.Map;
+
 @Data
 public class ResultDto {
 
     private String message;
     private Integer code;
     private Object data;
+    private Map errorMap;
 
     public static ResultDto errorOf(Integer code,String message){
         ResultDto resultDto = new ResultDto();
         resultDto.setCode(code);
         resultDto.setMessage(message);
+        return resultDto;
+    }
+
+    public static ResultDto errorOf(Integer code,Map errorMap){
+        ResultDto resultDto = new ResultDto();
+        resultDto.setCode(code);
+        resultDto.setErrorMap(errorMap);
         return resultDto;
     }
 

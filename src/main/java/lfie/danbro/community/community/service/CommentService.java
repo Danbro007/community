@@ -59,26 +59,26 @@ public class CommentService {
                 throw new CustomizeExpection(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
             Question question = questionMapper.selectByPrimaryKey(dbComment.getParentId());
-            if (question == null){
+            if (question == null){//找不到问题抛出异常
                 throw new CustomizeExpection(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
 
-            commentMapper.insert(comment);
+            commentMapper.insertSelective(comment);
             Comment parentComment = new Comment();
             parentComment.setId(comment.getParentId());
             parentComment.setCommentCount(1);
             commentExtMapper.increaseCommentCount(parentComment);
-            creteNotification(comment,comment.getContent(), dbComment.getCommenter(),CommentTypeEnum.COMMENT,question.getId());
+            createNotification(comment,comment.getContent(), dbComment.getCommenter(),CommentTypeEnum.COMMENT,question.getId());
         } else {//类型为问题
             Question question = questionService.selectByPrimaryKey(comment.getParentId());
             if (question == null) {
                 throw new CustomizeExpection(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
             //添加评论
-            commentMapper.insert(comment);
+            commentMapper.insertSelective(comment);
             //更新评论数
             questionService.increaseCommentCount(question.getId());
-            creteNotification(comment,question.getTitle(),question.getCreator(),CommentTypeEnum.QUESTION,question.getId());
+            createNotification(comment,question.getTitle(),question.getCreator(),CommentTypeEnum.QUESTION,question.getId());
 
 
         }
@@ -90,7 +90,7 @@ public class CommentService {
      * @param reciever 被通知者id
      * @param commentTypeEnum 评论类型
      */
-    private void creteNotification(Comment comment,String tittle,Integer reciever,CommentTypeEnum commentTypeEnum,Long outerId) {
+    private void createNotification(Comment comment, String tittle, Integer reciever, CommentTypeEnum commentTypeEnum, Long outerId) {
         Notification notification = new Notification();
         notification.setGmtCreate(System.currentTimeMillis());
         notification.setNotifier(comment.getCommenter());

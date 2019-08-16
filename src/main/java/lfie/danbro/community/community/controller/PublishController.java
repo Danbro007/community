@@ -41,6 +41,14 @@ public class PublishController {
         return "publish";
     }
 
+    /**
+     *
+     * @param questionCreateDto 接收到的问题数据
+     * @param result 数据校验结果
+     * @param request 接收到的请求
+     * @param model
+     * @return 网页
+     */
     @PostMapping("/publish")
     public String addPublish(@Valid QuestionCreateDto questionCreateDto,
                              BindingResult result,
@@ -60,6 +68,9 @@ public class PublishController {
                     model.addAttribute("errors", errorsMap);
                     List<TagDto> tagList = TagCache.getTagList();
                     model.addAttribute("tags", tagList);
+                    model.addAttribute("title",questionCreateDto.getTitle());
+                    model.addAttribute("description",questionCreateDto.getDescription());
+                    model.addAttribute("tag",questionCreateDto.getTag());
                     return "publish";
                 }else {
                     Question question = new Question();
@@ -77,6 +88,9 @@ public class PublishController {
                     FieldError fieldError = (FieldError) error;
                     errorsMap.put(fieldError.getField(),error.getDefaultMessage());
                 }
+                model.addAttribute("title",questionCreateDto.getTitle());
+                model.addAttribute("description",questionCreateDto.getDescription());
+                model.addAttribute("tag",questionCreateDto.getTag());
                 model.addAttribute("errors",errorsMap);
                 List<TagDto> tagList = TagCache.getTagList();
                 model.addAttribute("tags", tagList);

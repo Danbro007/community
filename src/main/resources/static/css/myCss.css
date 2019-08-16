@@ -61,3 +61,7 @@
 .errorMessage{
     color: red;
 }
+.question-item{
+    border-bottom: 1px solid #EEEEEE;
+    margin: 1px 0 1px 0;
+}

@@ -1,9 +1,9 @@
 package lfie.danbro.community.community.controller;
 
 
-import lfie.danbro.community.community.Enum.NotificationStatusEnum;
 import lfie.danbro.community.community.Enum.NotificationTypeEnum;
-import lfie.danbro.community.community.mapper.NotificationMapper;
+import lfie.danbro.community.community.Exception.CustomizeErrorCode;
+import lfie.danbro.community.community.Exception.CustomizeExpection;
 import lfie.danbro.community.community.model.Notification;
 import lfie.danbro.community.community.model.User;
 import lfie.danbro.community.community.service.NotificationService;
@@ -20,7 +20,6 @@ public class NotificationController {
     @Autowired
     NotificationService notificationService;
 
-
     @GetMapping("/notification/{id}")
     public String notificationView(@PathVariable("id") Long id,
                                    HttpServletRequest request) {
@@ -30,6 +29,9 @@ public class NotificationController {
             return "redirect:/";
         }
         Notification notification = notificationService.getNotificationByUserId(id, user.getId());
+        if (notification == null){
+            throw new CustomizeExpection(CustomizeErrorCode.NOTIFICATION_NOT_FOUND);
+        }
         if (notification.getType() == NotificationTypeEnum.Reply_Comment.getType()
                 || notification.getType() == NotificationTypeEnum.Reply_Question.getType()) {
             return "redirect:/question/" + notification.getOuterId();

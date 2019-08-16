@@ -26,8 +26,12 @@ public class UCloudProvider {
 
     @Value("${ucloud.ufile.public-key}")
     private String publicKey;
+
     @Value("${ucloud.ufile.bucketName}")
     private String bucketName;
+
+
+
 
     /**
      * 上传文件到UCloud云存储
@@ -35,7 +39,7 @@ public class UCloudProvider {
      * @param fileStream 文件输入流
      * @param mimeType   文件类型
      * @param fileName   文件名
-     * @return
+     * @return 图片url地址
      */
     public String upload(InputStream fileStream, String mimeType, String fileName) {
         String[] split = fileName.split("\\.");
@@ -57,16 +61,15 @@ public class UCloudProvider {
                     .setOnProgressListener(new OnProgressListener() {
                         @Override
                         public void onProgress(long bytesWritten, long contentLength) {
-
                         }
                     })
                     .execute();
             if (response != null && response.getRetCode() == 0) {
                 String url = UfileClient.object(objectAuthorization, config)
-                        .getDownloadUrlFromPrivateBucket(generatedFileName, bucketName, 24 * 60 * 60)
+                        .getDownloadUrlFromPrivateBucket(generatedFileName, bucketName,86400)
                         .createUrl();
                 return url;
-            }else{
+            } else {
                 throw new CustomizeExpection(CustomizeErrorCode.FILE_UPLOAD_FAIL);
             }
         } catch (UfileClientException e) {

@@ -43,6 +43,8 @@ public class CommunityApplicationTests {
     NotificationExtMapper notificationExtMapper;
 
     @Autowired
+    CommentMapper commentMapper;
+    @Autowired
     CommentService commentService;
     @Test
     public void testGetAllQuestionDtos() {
@@ -89,13 +91,13 @@ public class CommunityApplicationTests {
         System.out.println(replace);
     }
 
-    @Test
-    public void testGetNotification(){
-        PageInfo<NotificationDto> notifications = notificationService.getNotifications(29, 1, 5);
-        for (NotificationDto notificationDto : notifications.getList()) {
-            System.out.println(notificationDto);
-        }
-    }
+//    @Test
+//    public void testGetNotification(){
+//        PageInfo<NotificationDto> notifications = notificationService.getNotifications(29, 1, 5);
+//        for (NotificationDto notificationDto : notifications.getList()) {
+//            System.out.println(notificationDto);
+//        }
+//    }
 
 
     @Test
@@ -103,6 +105,26 @@ public class CommunityApplicationTests {
 
         Notification notification = notificationService.getNotificationByUserId(1L, 29);
         System.out.println("111");
+    }
+
+    @Test
+    public void testComment2Comment(){
+        Comment comment = new Comment();
+        comment.setParentId(18L);
+        comment.setType(1);
+        comment.setCommenter(2);
+        comment.setContent("3333");
+        comment.setGmtCreate(System.currentTimeMillis());
+        comment.setGmtModified(comment.getGmtCreate());
+        commentMapper.insertSelective(comment);
+
+    }
+
+    @Test
+    public void testGetNotification(){
+        Notification notification = notificationService.getNotificationByUserId(23L, 29);
+        System.out.println(notification);
+
     }
 
 }

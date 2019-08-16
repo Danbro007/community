@@ -25,6 +25,14 @@ public class QuestionController {
     @Autowired
     CommentService commentService;
 
+    /**
+     *
+     * @param id 问题id
+     * @param page 页数
+     * @param size 每页数量
+     * @param model
+     * @return 问题的评论
+     */
     @GetMapping("/question/{id}")
     public String questionView(@PathVariable("id") Long id,
                                @RequestParam(value = "page",defaultValue = "1")Integer page,
