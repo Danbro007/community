@@ -23,6 +23,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -124,6 +126,12 @@ public class CommunityApplicationTests {
     public void testGetNotification(){
         Notification notification = notificationService.getNotificationByUserId(23L, 29);
         System.out.println(notification);
+    }
+
+    @Test
+    public void test02(){
+        boolean isMatch1 = Pattern.matches("^@\\w+\\:.*", "@shan:");
+        System.out.println(isMatch1);
 
     }
 

@@ -65,3 +65,31 @@
     border-bottom: 1px solid #EEEEEE;
     margin: 1px 0 1px 0;
 }
+
+
+.replyBtn{
+    float: right;
+}
+/**
+首页问题样式
+ */
+.question-title:hover{
+    color: #428bca;
+
+}
+.question-title{
+    color: #155faa;
+}
+.question-info{
+    font-size: 12px;
+    color: #999999;
+    margin-left: 20px;
+}
+.question-list{
+    border-top: 2px solid #e6e6e6;
+}
+
+.outer{
+    background-color: white;
+    margin: 50px 60px 50px 60px;
+}

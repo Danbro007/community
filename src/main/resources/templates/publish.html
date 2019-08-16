@@ -10,81 +10,84 @@
     <script src="/js/editormd.min.js"></script>
     <script src="/js/plugins/image-dialog/image-dialog.js"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
-    <link rel="stylesheet" href="/css/myCss.css">
+    <link rel="stylesheet" href="/css/community.css">
     <link rel="stylesheet" href="/css/editormd.css">
 
 </head>
 <body style="background-color: #efefef">
 <nav th:replace="~{bar::topbar}"></nav>
 
-<div class="container-fluid" style="background-color: white;margin: 30px">
+<div class="container-fluid outer">
     <div class="row">
-        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-            <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
-            <hr>
-            <form class="main" action="/publish" method="post">
-                <div class="form-group">
-                    <input type="hidden" name="id" th:value="${id}">
-                    <label for="title">问题目标(简明扼要):</label>
-                    <div th:if="${errors != null}">
-                        <span th:text="${errors.get('title')}" class="errorMessage"></span>
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" style="border-right: 2px solid #e6e6e6;padding-right: 0">
+            <h3><span class="glyphicon glyphicon-plus" aria-hidden="true" style="margin-right: 10px"></span>
+            <span>发起</span>
+            </h3>
+            <div class="question-list">
+                <form class="main" action="/publish" method="post">
+                    <div class="form-group">
+                        <input type="hidden" name="id" th:value="${id}">
+                        <label for="title">问题目标(简明扼要):</label>
+                        <div th:if="${errors != null}">
+                            <span th:text="${errors.get('title')}" class="errorMessage"></span>
+                        </div>
+                        <input type="text" class="form-control" id="title" placeholder="问题标题..." name="title" th:value="${title}">
                     </div>
-                    <input type="text" class="form-control" id="title" placeholder="问题标题..." name="title" th:value="${title}">
-                </div>
-                <!--markdown编辑器-->
+                    <!--markdown编辑器-->
 
-                <div class="form-group" id="question-editor">
-                    <label for="description">问题补充(必填,请按照右侧提示):</label>
-                    <div th:if="${errors != null}">
-                        <span th:text="${errors.get('description')}" class="errorMessage"></span>
-                    </div>
-                    <textarea type="email" class="form-control" id="description" style="height: 150px;display: none" name="description" th:text="${description}"></textarea>
-                    <script type="text/javascript">
-                        $(function() {
-                            var editor = editormd("question-editor", {
-                                width  : "100%",
-                                height : "500",
-                                path   : "/js/lib/",
-                                delay  : 0,
-                                imageUpload:true,
-                                imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-                                imageUploadURL : "/file/upload",
-                                watch:true,
-                                placeholder:"请输入问题描述..."
+                    <div class="form-group" id="question-editor">
+                        <label for="description">问题补充(必填,请按照右侧提示):</label>
+                        <div th:if="${errors != null}">
+                            <span th:text="${errors.get('description')}" class="errorMessage"></span>
+                        </div>
+                        <textarea type="email" class="form-control" id="description" style="height: 150px;display: none" name="description" th:text="${description}"></textarea>
+                        <script type="text/javascript">
+                            $(function() {
+                                var editor = editormd("question-editor", {
+                                    width  : "100%",
+                                    height : "500",
+                                    path   : "/js/lib/",
+                                    delay  : 0,
+                                    imageUpload:true,
+                                    imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                                    imageUploadURL : "/file/upload",
+                                    watch:true,
+                                    placeholder:"请输入问题描述..."
+                                });
                             });
-                        });
-                    </script>
-                </div>
-                <div class="form-group">
-                    <label for="tag">添加标题:</label>
-                    <div th:if="${errors != null}">
-                        <span th:text="${errors.get('tag')}" class="errorMessage"></span>
+                        </script>
                     </div>
-                    <input type="text" class="form-control" id="tag" placeholder="输入标签,以,号分隔" name="tag" th:value="${tag}" autocomplete="off" onclick="showSelectTags()">
-                    <div id="question-tag" style="display: none">
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li role="presentation" th:each="category,categoryStat:${tags}" th:class="${categoryStat.first?'active':''}">
-                                <a th:href="${'#' + category.getCategoryEnName()}" aria-controls="home" role="tab" data-toggle="tab"  th:text="${category.getCategoryName()}"></a>
-                            </li>
-                        </ul>
-                        <div class="tab-content" style="margin-top: 10px">
-                            <div role="tabpanel" style="font-size: 14px" th:id="${category.getCategoryEnName()}" th:each="category,categoryStat:${tags}" th:class="${categoryStat.first?'tab-pane active':'tab-pane'}">
+                    <div class="form-group">
+                        <label for="tag">添加标题:</label>
+                        <div th:if="${errors != null}">
+                            <span th:text="${errors.get('tag')}" class="errorMessage"></span>
+                        </div>
+                        <input type="text" class="form-control" id="tag" placeholder="输入标签,以,号分隔" name="tag" th:value="${tag}" autocomplete="off" onclick="showSelectTags()">
+                        <div id="question-tag" style="display: none">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" th:each="category,categoryStat:${tags}" th:class="${categoryStat.first?'active':''}">
+                                    <a th:href="${'#' + category.getCategoryEnName()}" aria-controls="home" role="tab" data-toggle="tab"  th:text="${category.getCategoryName()}"></a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" style="margin-top: 10px">
+                                <div role="tabpanel" style="font-size: 14px" th:id="${category.getCategoryEnName()}" th:each="category,categoryStat:${tags}" th:class="${categoryStat.first?'tab-pane active':'tab-pane'}">
                                 <span class="label label-info categoryTag" th:each="selectTag:${category.tags}">
                                     <span th:text="${selectTag}" onclick="selectTag(this)" th:data-tag = "${selectTag}"></span>
                                 </span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="alert alert-danger col-lg-9 col-md-12 col-sm-12 col-xs-12" th:if="${error} != null" th:text="${error}"></div>
-                        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" style="float:right;">
-                            <button type="submit" class="btn btn-success" style="float: right;margin-bottom: 30px">发布</button>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="alert alert-danger col-lg-9 col-md-12 col-sm-12 col-xs-12" th:if="${error} != null" th:text="${error}"></div>
+                            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" style="float:right;">
+                                <button type="submit" class="btn btn-success" style="float: right;margin-bottom: 30px">发布</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <h2>问题发起指南</h2>

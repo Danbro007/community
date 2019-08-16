@@ -28,7 +28,7 @@ public class ProfileController {
     @GetMapping("/profile/{action}")
     public String viewProfile(@PathVariable(value = "action") String action,
                               @RequestParam(value = "page", defaultValue = "1") Integer page,
-                              @RequestParam(value = "size", defaultValue = "5") Integer size,
+                              @RequestParam(value = "size", defaultValue = "10") Integer size,
                               HttpServletRequest request,
                               Model model) {
 

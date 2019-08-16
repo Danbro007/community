@@ -19,7 +19,7 @@ public class IndexController {
     @GetMapping("/")
     public String index(Model model,
                         @RequestParam(value = "page",defaultValue = "1") Integer page,
-                        @RequestParam(value = "size",defaultValue = "5") Integer size){
+                        @RequestParam(value = "size",defaultValue = "10") Integer size){
 
         PageInfo<QuestionDto> questionDtos = questionService.getALLQuestionDtos(page,size);
         model.addAttribute("questions",questionDtos);

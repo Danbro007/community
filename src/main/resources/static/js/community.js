@@ -87,7 +87,14 @@ function collapseComments(e) {
                         "class": "media-object img-rounded heading",
                         "src": comment.user.avatarUrl
                     }));
-
+                    var replyElement = $("<a/>",{
+                        "id":"comment-" + comment.id,
+                        "parent-id":id,
+                        "html":"回复",
+                        "class":"replyBtn",
+                        "parent-commenter-name":comment.user.name,
+                        "onclick":"selectCommenter(this)"
+                    });
                     var mediaBodyElement = $("<div/>", {
                         "class": "media-body"
                     }).append($("<h5/>", {
@@ -97,11 +104,11 @@ function collapseComments(e) {
                         "html": comment.content,
                         "class": "media-content"
                     })).append($("<div/>", {
-                        "class": "menu"
+                        "class": "menu "
                     }).append($("<span/>", {
                         "class": "pull-right icon",
                         "html": moment(comment.gmtCreate).format("YYYY-MM-DD")
-                    })));
+                    })).append(replyElement));
 
                     var hrElement = $("<hr/>", {
                         "class": "col-lg-12 col-md-12 col-sm-12 col-xs-12",
@@ -145,4 +152,12 @@ function selectTag(e) {
             $("#tag").val(value);
         }
     }
+}
+
+
+function selectCommenter(e) {
+    var parentId = e.getAttribute("parent-id");
+    var commentId = e.getAttribute("id").split("-")[1];
+    var parentCommenterName = e.getAttribute("parent-commenter-name");
+    $("#input-" +parentId).val("@" + parentCommenterName + ":");
 }

@@ -15,8 +15,10 @@ import lfie.danbro.community.community.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 public class CommentService {
@@ -62,7 +64,11 @@ public class CommentService {
             if (question == null){//找不到问题抛出异常
                 throw new CustomizeExpection(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
-
+            String content = comment.getContent();
+            boolean match = Pattern.matches("^@\\w+\\:.*", content);
+            if (match){
+                comment.setContent(StringUtils.split(content,":")[1]);
+            }
             commentMapper.insertSelective(comment);
             Comment parentComment = new Comment();
             parentComment.setId(comment.getParentId());
