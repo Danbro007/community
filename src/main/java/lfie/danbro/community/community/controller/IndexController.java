@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -19,9 +20,10 @@ public class IndexController {
     @GetMapping("/")
     public String index(Model model,
                         @RequestParam(value = "page",defaultValue = "1") Integer page,
-                        @RequestParam(value = "size",defaultValue = "10") Integer size){
+                        @RequestParam(value = "size",defaultValue = "10") Integer size,
+                        @RequestParam(value = "search",required = false) String search){
 
-        PageInfo<QuestionDto> questionDtos = questionService.getALLQuestionDtos(page,size);
+        PageInfo<QuestionDto> questionDtos = questionService.getALLQuestionDtos(page,size,search);
         model.addAttribute("questions",questionDtos);
         return "index";
     }

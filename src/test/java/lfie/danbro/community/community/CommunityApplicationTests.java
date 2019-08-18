@@ -50,7 +50,7 @@ public class CommunityApplicationTests {
     CommentService commentService;
     @Test
     public void testGetAllQuestionDtos() {
-        List<QuestionDto> questionDtos = questionExtMapper.getAllQuestionDtos();
+        List<QuestionDto> questionDtos = questionExtMapper.getAllQuestionDtos("dddd");
         for (QuestionDto questionDto : questionDtos) {
             User user = questionDto.getUser();
             System.out.println(user.getAvatarUrl());

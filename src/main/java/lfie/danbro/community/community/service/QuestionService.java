@@ -39,9 +39,9 @@ public class QuestionService {
      * @param size 每页数量
      * @return 问题列表
      */
-    public PageInfo<QuestionDto> getALLQuestionDtos(Integer page, Integer size) {
+    public PageInfo<QuestionDto> getALLQuestionDtos(Integer page, Integer size,String search) {
         PageHelper.startPage(page, size);
-        List<QuestionDto> questionDtos = questionExtMapper.getAllQuestionDtos();
+        List<QuestionDto> questionDtos = questionExtMapper.getAllQuestionDtos(StringUtils.replace(search, " ", "|"));
        return new PageInfo<>(questionDtos);
     }
 

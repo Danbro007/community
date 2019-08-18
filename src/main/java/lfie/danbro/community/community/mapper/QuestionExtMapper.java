@@ -8,7 +8,7 @@ import java.util.List;
 public interface QuestionExtMapper {
     int increaseViewCount(Question question);
     int increaseCommentCount(Question question);
-    List<QuestionDto> getAllQuestionDtos();
+    List<QuestionDto> getAllQuestionDtos(String search);
     List<QuestionDto> getAllQuestionDtosByUserId(Integer id);
     List<QuestionDto> getRelatedQuestions(Question question);
 }

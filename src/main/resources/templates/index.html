@@ -22,7 +22,7 @@
 <nav th:replace="~{bar::topbar}"></nav>
 <div class="container-fluid outer">
     <div class="row">
-        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" style="border-right: 2px solid #e6e6e6;padding-right: 0">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 " style="border-right: 2px solid #e6e6e6;padding-right: 0">
             <h3><span class="glyphicon glyphicon-list" aria-hidden="true" style="margin-right: 10px"></span>发现</h3>
             <div class="question-list">
                 <div class="media" th:each="question:${questions.list}" style="margin-top: 15px">
@@ -41,6 +41,7 @@
                             <span th:text="${question.viewCount}"></span>次浏览 •
                             <span th:text="${question.likeCount}"></span>个赞 •
                             <span th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
+                            <span style="float: right;margin-right: 40px"><a th:href="@{'/question/' + ${question.id}}" style="color: #999999;">回复</a></span>
                         </div>
                     </div>
                     <hr style="margin-top: 10px;margin-bottom: 10px">

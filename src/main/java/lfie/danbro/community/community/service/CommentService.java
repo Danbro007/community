@@ -25,6 +25,7 @@ public class CommentService {
 
     @Autowired
     CommentMapper commentMapper;
+
     @Autowired
     CommentExtMapper commentExtMapper;
 
@@ -61,20 +62,20 @@ public class CommentService {
                 throw new CustomizeExpection(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
             Question question = questionMapper.selectByPrimaryKey(dbComment.getParentId());
-            if (question == null){//找不到问题抛出异常
+            if (question == null) {//找不到问题抛出异常
                 throw new CustomizeExpection(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
-            String content = comment.getContent();
-            boolean match = Pattern.matches("^@\\w+\\:.*", content);
-            if (match){
-                comment.setContent(StringUtils.split(content,":")[1]);
-            }
+//            String content = comment.getContent();
+//            boolean match = Pattern.matches("^@\\w+\\:.*", content);
+//            if (match){
+//                comment.setContent(StringUtils.split(content,":")[1]);
+//            }
             commentMapper.insertSelective(comment);
             Comment parentComment = new Comment();
             parentComment.setId(comment.getParentId());
             parentComment.setCommentCount(1);
             commentExtMapper.increaseCommentCount(parentComment);
-            createNotification(comment,comment.getContent(), dbComment.getCommenter(),CommentTypeEnum.COMMENT,question.getId());
+            createNotification(comment, comment.getContent(), dbComment.getCommenter(), CommentTypeEnum.COMMENT, question.getId());
         } else {//类型为问题
             Question question = questionService.selectByPrimaryKey(comment.getParentId());
             if (question == null) {
@@ -84,16 +85,15 @@ public class CommentService {
             commentMapper.insertSelective(comment);
             //更新评论数
             questionService.increaseCommentCount(question.getId());
-            createNotification(comment,question.getTitle(),question.getCreator(),CommentTypeEnum.QUESTION,question.getId());
-
-
+            createNotification(comment, question.getTitle(), question.getCreator(), CommentTypeEnum.QUESTION, question.getId());
         }
     }
 
     /**
      * 通过通知者id 被通知者id 和评论类型插入一条通知记录
-     * @param comment 评论对象
-     * @param reciever 被通知者id
+     *
+     * @param comment         评论对象
+     * @param reciever        被通知者id
      * @param commentTypeEnum 评论类型
      */
     private void createNotification(Comment comment, String tittle, Integer reciever, CommentTypeEnum commentTypeEnum, Long outerId) {

@@ -32,7 +32,13 @@
   </update>
     <select id="getAllQuestionDtos" resultMap="myQuestion">
       SELECT q.*,u.* FROM question q LEFT JOIN `user` u on
-      q.creator = u.id order by q.gmt_create desc
+        q.creator = u.id
+        <where>
+          <if test="search != null">
+            and title REGEXP #{search}
+          </if>
+      </where>
+        order by q.gmt_create desc
     </select>
     <select id="getAllQuestionDtosByUserId" resultMap="myQuestion">
       SELECT q.*,u.* FROM question q LEFT JOIN `user` u on

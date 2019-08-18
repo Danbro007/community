@@ -3,9 +3,9 @@ package lfie.danbro.community.community.controller;
 
 import lfie.danbro.community.community.cache.TagCache;
 import lfie.danbro.community.community.dto.QuestionCreateDto;
+import lfie.danbro.community.community.dto.QuestionDto;
 import lfie.danbro.community.community.dto.TagDto;
 import lfie.danbro.community.community.model.Question;
-import lfie.danbro.community.community.dto.QuestionDto;
 import lfie.danbro.community.community.model.User;
 import lfie.danbro.community.community.service.QuestionService;
 import org.springframework.beans.BeanUtils;
@@ -19,14 +19,12 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 public class PublishController {
