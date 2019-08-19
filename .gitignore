@@ -31,3 +31,11 @@ build/
 src/main/java/life/
 src/test/java/life/
 /src/main/resources/application.properties
+/logs/
+logs/
+src/main/java/lfie/danbro/community/community/config/RedisConfig.java
+src/main/resources/static/css/signin.css
+src/main/resources/static/images/bootstrap-solid.svg
+src/main/resources/static/images/github.png
+src/main/resources/static/images/logo.png
+src/main/resources/templates/login.html

@@ -93,3 +93,13 @@
     background-color: white;
     margin: 50px 60px 50px 60px;
 }
+
+
+.github-btn{
+    margin-bottom: 20px;
+    background-color: #3a5799;
+    line-height: normal;
+}
+.github-btn:hover{
+    background-color: #155faa;
+}

@@ -6,6 +6,7 @@ import lfie.danbro.community.community.dto.GitHubUser;
 import lfie.danbro.community.community.model.User;
 import lfie.danbro.community.community.provider.GitHubProvider;
 import lfie.danbro.community.community.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
+@Slf4j
 public class AuthorizeController {
 
     @Autowired
@@ -27,7 +29,7 @@ public class AuthorizeController {
     private String clientId;
 
     @Value("${github.client.sercet}")
-    private String clientSercet;
+    private String clientSecret;
 
     @Value("${github.redirect.uri}")
     private String redirectUri;
@@ -42,7 +44,7 @@ public class AuthorizeController {
                            HttpServletRequest request) {
         AccessTokenDto accessTokenDto = new AccessTokenDto();
         accessTokenDto.setClient_id(clientId);
-        accessTokenDto.setClient_secret(clientSercet);
+        accessTokenDto.setClient_secret(clientSecret);
         accessTokenDto.setCode(code);
         accessTokenDto.setRedirect_uri(redirectUri);
         accessTokenDto.setState(state);
@@ -66,6 +68,7 @@ public class AuthorizeController {
             return "redirect:/";
             //登录失败
         }else {
+//            log.error("github callback is error {}",gitHubUser);
             return "redirect:/";
         }
     }
@@ -85,5 +88,10 @@ public class AuthorizeController {
         cookie.setMaxAge(0);
         response.addCookie(cookie);
         return "redirect:/";
+    }
+
+    @GetMapping("/login")
+    public String logIn(){
+        return "login";
     }
 }

@@ -4,6 +4,8 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: 192.168.1.115
 
 
 mybatis:
@@ -19,4 +21,12 @@ pagehelper:
 
 server:
   port: 8888
+logging:
+  file:
+    max-size: 200MB
+    max-history: 30
+  level: info
+
+
+
 

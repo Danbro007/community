@@ -1,17 +1,23 @@
 package lfie.danbro.community.community.service;
 
 
-import lfie.danbro.community.community.model.UserExample;
 import lfie.danbro.community.community.mapper.UserMapper;
 import lfie.danbro.community.community.model.User;
+import lfie.danbro.community.community.model.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 @Service
 public class UserService {
+
+    @Autowired
+    RedisTemplate<Object,User> redisTemplate;
+
 
     @Autowired
     UserMapper userMapper;
@@ -29,7 +35,8 @@ public class UserService {
         if (dbUsers.size() == 0) {
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
-            userMapper.insert(user);
+            int userId = userMapper.insert(user);
+            user.setId(userId);
         } else {
             User dbUser = dbUsers.get(0);
             User updateUser = new User();
@@ -41,6 +48,10 @@ public class UserService {
             example.createCriteria().andAccountIdEqualTo(dbUser.getAccountId());
             userMapper.updateByExampleSelective(updateUser, example);
         }
+//        //加载在redis中
+//        redisTemplate.opsForValue().set(user.getToken(),user);
+//        redisTemplate.expire(user.getToken(),24,TimeUnit.HOURS);
+
     }
 
     public User selectUserByAccountId(String accountId) {

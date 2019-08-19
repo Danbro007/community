@@ -19,10 +19,12 @@ import org.junit.runner.RunWith;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,6 +45,8 @@ public class CommunityApplicationTests {
     CommentExtMapper commentExtMapper;
     @Autowired
     NotificationExtMapper notificationExtMapper;
+    @Autowired
+    RedisTemplate<Object,User> redisTemplate;
 
     @Autowired
     CommentMapper commentMapper;
@@ -132,7 +136,18 @@ public class CommunityApplicationTests {
     public void test02(){
         boolean isMatch1 = Pattern.matches("^@\\w+\\:.*", "@shan:");
         System.out.println(isMatch1);
+    }
 
+
+
+    @Test
+    public void testRedis(){
+        User user = new User();
+        user.setName("shan");
+        user.setAccountId("222");
+        redisTemplate.opsForValue().set(user.getName(),user);
+        redisTemplate.expire(user.getName(),60,TimeUnit.SECONDS);
+        User user1 = redisTemplate.opsForValue().get(user.getName());
     }
 
 }
