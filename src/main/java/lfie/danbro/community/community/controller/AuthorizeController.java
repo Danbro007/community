@@ -37,7 +37,7 @@ public class AuthorizeController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/callback")
+    @GetMapping("/login/callback")
     public String callback(@RequestParam("code") String code,
                            @RequestParam("state") String state,
                            HttpServletResponse response,
