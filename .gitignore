@@ -41,3 +41,4 @@ src/main/resources/static/images/logo.png
 src/main/resources/templates/login.html
 /src/test/
 /src/main/resources/application.properties
+/pom.xml

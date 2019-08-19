@@ -120,9 +120,9 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>5.2.4</version>
                 <configuration>
-                    <url>jdbc:mysql://10.9.27.3:3306/community?serverTimezone=GMT</url>
+                    <url>jdbc:mysql://localhost/community?serverTimezone=GMT</url>
                     <user>root</user>
-                    <password>shan_5290203</password>
+                    <password>root</password>
                 </configuration>
                 <dependencies>
                     <dependency>
