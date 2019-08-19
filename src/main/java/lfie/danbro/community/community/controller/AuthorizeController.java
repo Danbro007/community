@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
-@Slf4j
 public class AuthorizeController {
 
     @Autowired

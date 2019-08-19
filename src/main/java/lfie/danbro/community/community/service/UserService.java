@@ -16,10 +16,6 @@ import java.util.concurrent.TimeUnit;
 public class UserService {
 
     @Autowired
-    RedisTemplate<Object,User> redisTemplate;
-
-
-    @Autowired
     UserMapper userMapper;
 
     /**
