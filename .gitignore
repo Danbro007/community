@@ -30,7 +30,7 @@ build/
 .vscode/
 src/main/java/life/
 src/test/java/life/
-/src/main/resources/application.properties
+
 /logs/
 logs/
 src/main/java/lfie/danbro/community/community/config/RedisConfig.java
