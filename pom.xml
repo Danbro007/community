@@ -120,7 +120,7 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>5.2.4</version>
                 <configuration>
-                    <url>jdbc:mysql://localhost/community?serverTimezone=GMT</url>
+                    <url>jdbc:mysql://localhost:3306/community?serverTimezone=GMT</url>
                     <user>root</user>
                     <password>root</password>
                 </configuration>
