@@ -1,7 +1,9 @@
-##社区
+社区
+====
 
 
-##资料
+资料
+====
 [目标网站](https://elasticsearch.cn/)
 
 [spring文档](https://spring.io/guides)
@@ -22,14 +24,16 @@
 
 
 
-##工具
+工具
+====
 [Git](https://git-scm.com/)
 
 [lombok](https://projectlombok.org/setup/maven)
 
 [Markdown 编辑器](https://github.com/pandao/editor.md)
 
-##脚本
+脚本
+====
 [修改配置文件]修改pom.xml和application-prod.properties文件里的数据库地址
 [MybatisGenerator初始化脚本]mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
 [打包并迁移数据库]mvn clean compile package fly:migrate
