@@ -33,16 +33,20 @@ public class SessionInterceptor implements HandlerInterceptor {
                     UserExample userExample = new UserExample();
                     userExample.createCriteria().andTokenEqualTo(token);
                     List<User> users = userMapper.selectByExample(userExample);
+                    //通过数据库获取到用户 在session设置user
                     if (users.size() > 0){
                         request.getSession().setAttribute("user",users.get(0));
                         Long unReadCount = notificationService.getUnReadCount(users.get(0).getId());
                         request.getSession().setAttribute("unReadCount",unReadCount);
+                        return true;
                     }
-                    break;
+                    response.sendRedirect("/login");
+                    return false;
                 }
             }
         }
-        return true;
+        response.sendRedirect("/login");
+        return false;
     }
 
     @Override

@@ -35,4 +35,4 @@ src/test/java/life/
 logs/
 /src/test/
 /src/main/resources/application.properties
-/pom.xml
+#/pom.xml

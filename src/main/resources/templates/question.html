@@ -168,7 +168,7 @@
             <div class="col-lg-12 col-xs-12 col-md-12 col-sm-12">
                 <h4>相关问题</h4>
                 <ul style="list-style: none">
-                    <li th:each="relatedQuestion:${relatedQuestions}">
+                    <li th:each="relatedQuestion:${relatedQuestions}" style="margin-bottom: 5px">
                         <a th:href="@{'/question/' + ${relatedQuestion.id}}" class="relatedQuestion"
                            th:text="${relatedQuestion.title}"></a>
                     </li>
