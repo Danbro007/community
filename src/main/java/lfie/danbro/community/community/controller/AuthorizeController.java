@@ -36,7 +36,7 @@ public class AuthorizeController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/login/callback")
+    @GetMapping("/callback")
     public String callback(@RequestParam("code") String code,
                            @RequestParam("state") String state,
                            HttpServletResponse response,
@@ -62,7 +62,9 @@ public class AuthorizeController {
             userService.updateOrInsert(user);
             //添加token到cookie里
             User dbUser = userService.selectUserByAccountId(user.getAccountId());
-            response.addCookie(new Cookie("token",user.getToken()));
+            Cookie cookie = new Cookie("token", user.getToken());
+            cookie.setPath(null);
+            response.addCookie(cookie);
             request.getSession().setAttribute("user",dbUser);
             return "redirect:/";
             //登录失败

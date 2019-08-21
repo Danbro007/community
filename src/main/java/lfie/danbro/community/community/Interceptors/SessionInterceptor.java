@@ -28,6 +28,8 @@ public class SessionInterceptor implements HandlerInterceptor {
         Cookie[] cookies = request.getCookies();
         if (cookies != null){
             for (Cookie cookie : cookies) {
+                System.out.println(cookie.getDomain());
+
                 if (cookie.getName().equals("token")){
                     String token = cookie.getValue();
                     UserExample userExample = new UserExample();

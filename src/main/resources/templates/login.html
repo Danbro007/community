@@ -12,13 +12,14 @@
     <!-- Custom styles for this template -->
     <link href="/css/signin.css" rel="stylesheet">
 </head>
+
 <body class="text-center">
 <form class="form-signin" action="/" method="post">
     <img class="mb-4" src="/images/logo.png" alt="" width="72" height="72">
     <h1 class="h3 mb-3 font-weight-normal">请登录</h1>
     <div style="margin-bottom: 30px">第三方账号登录</div>
     <div>
-        <a type="button" class="btn github-btn"  th:href="@{https://github.com/login/oauth/authorize(client_id='06fdb966a8cbcf08c463',redirect_uri=${#httpServletRequest.getRequestURL()+'/callback'},scope='user',state='1')}">
+        <a type="button" class="btn github-btn"  th:href="@{https://github.com/login/oauth/authorize(client_id='06fdb966a8cbcf08c463',redirect_uri=${'http://' + #httpServletRequest.getServerName() + ':'+ #httpServletRequest.getServerPort()+'/callback'},scope='user',state='1')}">
             <img src="/images/github.png" alt="" style="height: 30px;width: 30px">
             <span style="color: black">GitHub登录</span>
         </a>
