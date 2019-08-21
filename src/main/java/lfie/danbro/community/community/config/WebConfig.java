@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 //拦截器
-@Configuration
+//@Configuration
 public class WebConfig implements WebMvcConfigurer{
 
     @Autowired
@@ -15,6 +15,6 @@ public class WebConfig implements WebMvcConfigurer{
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(sessionInterceptor).addPathPatterns("/**").excludePathPatterns("/js/*","/css/*","/images/*","/fonts/*","/login/*","/login","/question/*","/");
+        registry.addInterceptor(sessionInterceptor).addPathPatterns("/**").excludePathPatterns("/js/*","/css/*","/images/*","/fonts/*","/login/*","/login","/question/*","/","/logout");
     }
 }

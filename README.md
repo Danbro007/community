@@ -1,5 +1,9 @@
 社区
 ====
+运行
+====
+
+git clone https://github.com/Danbro007/community.git
 
 
 资料
@@ -34,8 +38,19 @@
 
 脚本
 ====
-[修改配置文件]修改pom.xml和application-prod.properties文件里的数据库地址
-[MybatisGenerator初始化脚本]mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
-[打包并迁移数据库]mvn clean compile package fly:migrate
-[部署]java -jar target/community-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
+[修改配置文件]
+
+修改pom.xml和application-prod.properties文件里的数据库地址
+
+[MybatisGenerator初始化脚本]
+
+mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
+
+[打包并迁移数据库]
+
+mvn clean compile package fly:migrate
+
+[部署]
+
+java -jar target/community-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
 
