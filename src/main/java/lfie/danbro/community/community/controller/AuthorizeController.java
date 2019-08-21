@@ -62,15 +62,13 @@ public class AuthorizeController {
             userService.updateOrInsert(user);
             //添加token到cookie里
             User dbUser = userService.selectUserByAccountId(user.getAccountId());
-            Cookie cookie = new Cookie("token", user.getToken());
-            cookie.setPath(null);
-            response.addCookie(cookie);
+            response.addCookie(new Cookie("token",dbUser.getToken()));
             request.getSession().setAttribute("user",dbUser);
             return "redirect:/";
             //登录失败
         }else {
 //            log.error("github callback is error {}",gitHubUser);
-            return "redirect:/";
+            return "redirect:/login";
         }
     }
 
