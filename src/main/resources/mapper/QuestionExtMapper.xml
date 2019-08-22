@@ -34,8 +34,11 @@
       SELECT q.*,u.* FROM question q LEFT JOIN `user` u on
         q.creator = u.id
         <where>
-          <if test="search != null">
+          <if test="search != null and search != ''">
             and title REGEXP #{search}
+          </if>
+          <if test="tag != null and tag != ''">
+            and tag REGEXP #{tag}
           </if>
       </where>
         order by q.gmt_create desc
@@ -47,6 +50,12 @@
 
     <select id="getRelatedQuestions" parameterType="lfie.danbro.community.community.model.Question" resultMap="myQuestion">
         SELECT * FROM question WHERE tag REGEXP #{tag} and id != #{id} limit 10
+    </select>
+
+    <select id="getRelatedQuestionNumByTag" parameterType="String" resultType="Integer">
+        SELECT COUNT(1) FROM question
+        WHERE
+        tag REGEXP #{tag}
     </select>
 
 

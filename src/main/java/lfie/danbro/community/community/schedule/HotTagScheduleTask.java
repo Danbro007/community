@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//@Component
+@Component
 @Slf4j
 public class HotTagScheduleTask {
 
@@ -23,10 +23,9 @@ public class HotTagScheduleTask {
     @Autowired
     private HotTagCache hotTagCache;
 
-    @Scheduled(fixedRate = 5000)
-//    @Scheduled(cron = "0 0 6,19 * * *")
+//    @Scheduled(fixedRate = 50000)
+    @Scheduled(cron = "0 0 6,19 * * *")
     public void reportCurrentTime() {
-        System.out.println("--------------------------");
         QuestionExample questionExample = new QuestionExample();
         List<Question> questions = questionMapper.selectByExample(questionExample);
         if (questions.size() > 0) {
@@ -42,16 +41,7 @@ public class HotTagScheduleTask {
                     }
                 }
             }
-            hotTagCache.setTagsPriority(newTagsPriority);
             hotTagCache.updateTags(newTagsPriority);
-            hotTagCache.getTagsPriority().forEach(
-                    (k, v) -> {
-                        System.out.print(k);
-                        System.out.print(":");
-                        System.out.print(v);
-                        System.out.println();
-                    }
-            );
         }
     }
 }

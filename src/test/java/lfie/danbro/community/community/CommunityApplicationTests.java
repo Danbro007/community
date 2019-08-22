@@ -52,15 +52,15 @@ public class CommunityApplicationTests {
     CommentMapper commentMapper;
     @Autowired
     CommentService commentService;
-    @Test
-    public void testGetAllQuestionDtos() {
-        List<QuestionDto> questionDtos = questionExtMapper.getAllQuestionDtos("dddd");
-        for (QuestionDto questionDto : questionDtos) {
-            User user = questionDto.getUser();
-            System.out.println(user.getAvatarUrl());
-        }
+//    @Test
+//    public void testGetAllQuestionDtos() {
+//        List<QuestionDto> questionDtos = questionExtMapper.getAllQuestionDtos();
+//        for (QuestionDto questionDto : questionDtos) {
+//            User user = questionDto.getUser();
+//            System.out.println(user.getAvatarUrl());
+//        }
 
-    }
+//    }
 
     @Test
     public void testGetCommentByQuestionID() {
@@ -148,6 +148,16 @@ public class CommunityApplicationTests {
         redisTemplate.opsForValue().set(user.getName(),user);
         redisTemplate.expire(user.getName(),60,TimeUnit.SECONDS);
         User user1 = redisTemplate.opsForValue().get(user.getName());
+    }
+
+
+    @Test
+    public void testGetAllQuestions(){
+        List<QuestionDto> questionDtos = questionExtMapper.getAllQuestionDtos("1313","java");
+        for (QuestionDto questionDto : questionDtos) {
+            System.out.println(questionDto);
+        }
+
     }
 
 }

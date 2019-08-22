@@ -102,4 +102,19 @@
 }
 .github-btn:hover{
     background-color: #155faa;
+
+}
+
+.hot-tag{
+    font-size: 14px;
+}
+
+.hot-tag-name{
+    color: #428bca;
+
+}
+
+.hot-tag-name:hover{
+    color: #155faa;
+
 }

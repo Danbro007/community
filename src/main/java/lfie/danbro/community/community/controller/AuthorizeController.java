@@ -49,6 +49,7 @@ public class AuthorizeController {
         accessTokenDto.setState(state);
         String accessToken = gitHubProvider.getAccessToken(accessTokenDto);
         GitHubUser gitHubUser = gitHubProvider.getGitUser(accessToken);
+        System.out.println(gitHubUser.getAvatarUrl());
         //登录成功
         if (gitHubUser != null){
             User user = new User();

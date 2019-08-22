@@ -2,7 +2,9 @@ package lfie.danbro.community.community.cache;
 
 
 import lfie.danbro.community.community.dto.HotTagDto;
+import lfie.danbro.community.community.mapper.QuestionExtMapper;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -10,13 +12,19 @@ import java.util.*;
 @Component
 @Data
 public class HotTagCache {
-    private Map<String,Long> tagsPriority = new HashMap<>();
+
+    @Autowired
+    QuestionExtMapper questionExtMapper;
+
+    private PriorityQueue<HotTagDto> priorityQueue;
+
     public void updateTags(Map<String,Long> tags){
-        List<String> priorityList = new ArrayList<>();
-        PriorityQueue<HotTagDto> priorityQueue = new PriorityQueue<>();
+        priorityQueue = new PriorityQueue<>();
         int max = 5;
         tags.forEach((name,priority)->{
             HotTagDto hotTagDto = new HotTagDto();
+            Integer questionCount = questionExtMapper.getRelatedQuestionNumByTag(name);
+            hotTagDto.setQuestionCount(questionCount);
             hotTagDto.setName(name);
             hotTagDto.setPriority(priority);
             if (priorityQueue.size() < max){
@@ -31,11 +39,5 @@ public class HotTagCache {
                 }
             }
         });
-        HotTagDto poll = priorityQueue.poll();
-        while (poll!= null){
-            priorityList.add(poll.getName());
-            poll = priorityQueue.poll();
-        }
-        System.out.println(priorityList);
     }
 }

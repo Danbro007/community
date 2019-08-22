@@ -7,7 +7,7 @@ import lombok.Data;
 public class HotTagDto implements Comparable {
     private String name;
     private Long priority;
-
+    private  Integer questionCount;
     @Override
     public int compareTo(Object o) {
         return new Long(this.priority).intValue() - new Long(((HotTagDto) o).getPriority()).intValue();
