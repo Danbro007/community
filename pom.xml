@@ -28,7 +28,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.11</version>
+            <version>5.1.47</version>
         </dependency>
         <!--&lt;!&ndash;配置flyway对mysql进行版本控制&ndash;&gt;-->
         <dependency>
@@ -103,7 +103,7 @@
                     <dependency>
                         <groupId>mysql</groupId>
                         <artifactId>mysql-connector-java</artifactId>
-                        <version>8.0.11</version>
+                        <version>5.1.47</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -120,15 +120,15 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>5.2.4</version>
                 <configuration>
-                    <url>jdbc:mysql://localhost:3306/community?serverTimezone=GMT</url>
+                    <url>jdbc:mysql://localhost:3306/community</url>
                     <user>root</user>
-                    <password>root</password>
+                    <password>shan_52902003</password>
                 </configuration>
                 <dependencies>
                     <dependency>
                         <groupId>mysql</groupId>
                         <artifactId>mysql-connector-java</artifactId>
-                        <version>8.0.11</version>
+                        <version>5.1.47</version>
                     </dependency>
                 </dependencies>
             </plugin>
