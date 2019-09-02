@@ -4,7 +4,6 @@ package lfie.danbro.community.community.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lfie.danbro.community.community.Enum.NotificationStatusEnum;
-import lfie.danbro.community.community.Enum.NotificationTypeEnum;
 import lfie.danbro.community.community.dto.NotificationDto;
 import lfie.danbro.community.community.mapper.CommentMapper;
 import lfie.danbro.community.community.mapper.NotificationExtMapper;
@@ -51,7 +50,7 @@ public class NotificationService {
      * @param userId 用户id
      * @return 消息对象
      */
-    public Notification getNotificationByUserId(Long notificationId,Integer userId){
+    public Notification getNotificationByUserId(Long notificationId, Integer userId){
         NotificationExample notificationExample = new NotificationExample();
         notificationExample.createCriteria().andIdEqualTo(notificationId).andRecieverEqualTo(userId);
         List<Notification> notifications = notificationMapper.selectByExample(notificationExample);

@@ -9,4 +9,3 @@ create table user
   token        varchar(36)  null,
   avatar_url   varchar(255) null
 );
-

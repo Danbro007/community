@@ -13,8 +13,6 @@
         <!--<version>1.5.21.RELEASE</version>-->
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-
-
     <properties>
         <java.version>1.8</java.version>
     </properties>
@@ -28,7 +26,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.11</version>
+            <version>5.1.48</version>
         </dependency>
         <!--&lt;!&ndash;配置flyway对mysql进行版本控制&ndash;&gt;-->
         <dependency>
@@ -36,7 +34,11 @@
             <artifactId>flyway-core</artifactId>
             <version>5.2.4</version>
         </dependency>
-        <!--redis-->
+        <!--elasticsearch-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
@@ -103,7 +105,7 @@
                     <dependency>
                         <groupId>mysql</groupId>
                         <artifactId>mysql-connector-java</artifactId>
-                        <version>8.0.11</version>
+                        <version>5.1.48</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -120,24 +122,22 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>5.2.4</version>
                 <configuration>
-                    <url>jdbc:mysql://localhost:3306/community?serverTimezone=GMT</url>
+                    <url>jdbc:mysql://localhost:3306/community</url>
                     <user>root</user>
-                    <password>root</password>
+                    <password></password>
                 </configuration>
                 <dependencies>
                     <dependency>
                         <groupId>mysql</groupId>
                         <artifactId>mysql-connector-java</artifactId>
-                        <version>8.0.11</version>
+                        <version>5.1.48</version>
                     </dependency>
                 </dependencies>
             </plugin>
-
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
-
 </project>

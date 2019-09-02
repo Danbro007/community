@@ -3,6 +3,8 @@ package lfie.danbro.community.community.controller;
 
 import com.github.pagehelper.PageInfo;
 import lfie.danbro.community.community.Enum.CommentTypeEnum;
+import lfie.danbro.community.community.model.Question;
+import lfie.danbro.community.community.repository.QuestionRepository;
 import lfie.danbro.community.community.service.CommentService;
 import lfie.danbro.community.community.dto.CommentDto;
 import lfie.danbro.community.community.dto.QuestionDto;

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="lfie.danbro.community.community.mapper.QuestionExtMapper">
   <resultMap id="myQuestion" type="lfie.danbro.community.community.dto.QuestionDto">
-      <id column="id" jdbcType="INTEGER" property="id"/>
+      <id column="id" jdbcType="BIGINT" property="id"/>
       <result column="title" jdbcType="VARCHAR" property="title"/>
       <result column="description" jdbcType="VARCHAR" property="description"/>
       <result column="gmt_create" jdbcType="BIGINT" property="gmtCreate"/>
@@ -33,14 +33,6 @@
     <select id="getAllQuestionDtos" resultMap="myQuestion">
       SELECT q.*,u.* FROM question q LEFT JOIN `user` u on
         q.creator = u.id
-        <where>
-          <if test="search != null and search != ''">
-            and title REGEXP #{search}
-          </if>
-          <if test="tag != null and tag != ''">
-            and tag REGEXP #{tag}
-          </if>
-      </where>
         order by q.gmt_create desc
     </select>
     <select id="getAllQuestionDtosByUserId" resultMap="myQuestion">

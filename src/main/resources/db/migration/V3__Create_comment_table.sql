@@ -11,4 +11,3 @@ create table comment
   comment_count int(255) default '0'    null,
   parent_id     bigint                  not null
 );
-

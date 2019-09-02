@@ -1,16 +1,15 @@
 package lfie.danbro.community.community;
 
 import com.github.pagehelper.PageInfo;
-import com.sun.org.apache.xpath.internal.SourceTree;
 import lfie.danbro.community.community.Enum.CommentTypeEnum;
 import lfie.danbro.community.community.dto.CommentDto;
-import lfie.danbro.community.community.dto.NotificationDto;
 import lfie.danbro.community.community.dto.QuestionDto;
 import lfie.danbro.community.community.mapper.*;
 import lfie.danbro.community.community.model.Comment;
 import lfie.danbro.community.community.model.Notification;
 import lfie.danbro.community.community.model.Question;
 import lfie.danbro.community.community.model.User;
+import lfie.danbro.community.community.repository.QuestionRepository;
 import lfie.danbro.community.community.service.CommentService;
 import lfie.danbro.community.community.service.NotificationService;
 import lfie.danbro.community.community.service.QuestionService;
@@ -19,13 +18,14 @@ import org.junit.runner.RunWith;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @RunWith(SpringRunner.class)
@@ -52,6 +52,9 @@ public class CommunityApplicationTests {
     CommentMapper commentMapper;
     @Autowired
     CommentService commentService;
+
+    @Autowired
+    QuestionRepository questionRepository;
 //    @Test
 //    public void testGetAllQuestionDtos() {
 //        List<QuestionDto> questionDtos = questionExtMapper.getAllQuestionDtos();
@@ -153,11 +156,19 @@ public class CommunityApplicationTests {
 
     @Test
     public void testGetAllQuestions(){
-        List<QuestionDto> questionDtos = questionExtMapper.getAllQuestionDtos("1313","java");
+        List<QuestionDto> questionDtos = questionExtMapper.getAllQuestionDtos();
         for (QuestionDto questionDto : questionDtos) {
             System.out.println(questionDto);
         }
-
     }
+    @Test
+    public void testElasticSearchQuestion(){
+        Page<Question> questions = questionRepository.findByTitleLike("java", PageRequest.of(1, 10));
+        for (Question question : questions) {
+            System.out.println(question);
+        }
+    }
+
+
 
 }

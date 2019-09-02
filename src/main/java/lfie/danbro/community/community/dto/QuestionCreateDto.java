@@ -14,6 +14,5 @@ public class QuestionCreateDto {
     @NotBlank(message = "标签不能为空!")
     private String tag;
 
-    @NotBlank(message = "问题描述不能为空!")
     private String description;
 }

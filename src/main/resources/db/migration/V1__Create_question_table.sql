@@ -1,7 +1,6 @@
--- auto-generated definition
 create table question
 (
-  id            bigint(255) auto_increment
+  id            bigint auto_increment
     primary key,
   title         varchar(50)             not null,
   description   text                    not null,

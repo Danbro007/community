@@ -5,11 +5,9 @@ import lfie.danbro.community.community.mapper.UserMapper;
 import lfie.danbro.community.community.model.User;
 import lfie.danbro.community.community.model.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 
 @Service

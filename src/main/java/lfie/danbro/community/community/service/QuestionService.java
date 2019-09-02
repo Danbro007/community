@@ -8,11 +8,10 @@ import lfie.danbro.community.community.Exception.CustomizeExpection;
 import lfie.danbro.community.community.mapper.QuestionMapper;
 import lfie.danbro.community.community.model.Question;
 import lfie.danbro.community.community.model.QuestionExample;
-import lfie.danbro.community.community.model.UserExample;
 import lfie.danbro.community.community.dto.QuestionDto;
 import lfie.danbro.community.community.mapper.QuestionExtMapper;
 import lfie.danbro.community.community.mapper.UserMapper;
-import lfie.danbro.community.community.model.User;
+import lfie.danbro.community.community.model.UserExample;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,9 +38,9 @@ public class QuestionService {
      * @param size 每页数量
      * @return 问题列表
      */
-    public PageInfo<QuestionDto> getALLQuestionDtos(Integer page, Integer size,String search,String tag) {
+    public PageInfo<QuestionDto> getALLQuestionDtos(Integer page, Integer size) {
         PageHelper.startPage(page, size);
-        List<QuestionDto> questionDtos = questionExtMapper.getAllQuestionDtos(StringUtils.replace(search, " ", "|"),tag);
+        List<QuestionDto> questionDtos = questionExtMapper.getAllQuestionDtos();
        return new PageInfo<>(questionDtos);
     }
 

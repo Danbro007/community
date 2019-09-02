@@ -21,7 +21,8 @@
 <body style="background-color: #efefef">
 <nav th:replace="~{bar::topbar}"></nav>
 <div class="container-fluid outer">
-    <div class="row">
+
+    <div class="row" th:if="${search == null}">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 " style="border-right: 2px solid #e6e6e6;padding-right: 0">
             <h3><span class="glyphicon glyphicon-list" aria-hidden="true" style="margin-right: 10px"></span>发现</h3>
             <div class="question-list">
@@ -84,6 +85,64 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+    <div class="row" th:if="${search != null}">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 " style="border-right: 2px solid #e6e6e6;padding-right: 0">
+            <h3 th:text="'搜索结果:' + ${search}"><span class="glyphicon glyphicon-list" aria-hidden="true" style="margin-right: 10px"></span></h3>
+            <div class="question-list">
+                <div class="media" th:each="question:${questionsPageInfo.getContent()}" style="margin-top: 15px">
+                    <div class="media-body">
+                        <h1 class="media-heading">
+                            <a th:href="@{'/question/' + ${question.id}}" th:text="${question.title}"
+                               class="question-title"></a>
+                        </h1>
+                        <div class="question-info">
+                            <span th:text="${question.commentCount}"></span>个回复 •
+                            <span th:text="${question.viewCount}"></span>次浏览 •
+                            <span th:text="${question.likeCount}"></span>个赞 •
+                            <span th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
+                            <span style="float: right;margin-right: 40px"><a th:href="@{'/question/' + ${question.id}}"
+                                                                             style="color: #999999;">回复</a></span>
+                        </div>
+                    </div>
+                    <hr style="margin-top: 10px;margin-bottom: 10px">
+                </div>
+                <nav aria-label="Page navigation" style="float: right;margin-right: 15px">
+                    <ul class="pagination">
+                        <li>
+                            <a th:href="@{/(search=${search},page=${questionsPageInfo.previousPageable().getPageNumber()})}" aria-label="Previous"
+                               th:if="${!questionsPageInfo.isFirst()}">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li th:each="page:${pagelist}"
+                            th:class="${page == questionsPageInfo.getNumber() + 1}?'active':''">
+                            <a th:href="@{/(search=${search},page=${page})}" th:text="${page}"></a>
+                        </li>
+                        <li>
+                            <a th:href="@{/(search=${search},page=${questionsPageInfo.nextPageable().getPageNumber() + 1})}"
+                               th:if="${!questionsPageInfo.isLast()}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <h3>热门标签</h3>
+            <div style="margin: 10px">
+                <div th:each="tag:${hotTags}" style="margin: 10px 10px 10px 0">
+                    <div class="label label-info hot-tag">
+                            <a th:text="${tag.name}" th:href="@{'/'(tag=${tag.name})}" style="color: white;text-decoration: none"></a>
+                    </div>
+                    <div style="margin-top: 5px">
+                        <span th:text="${tag.questionCount} + '个问题'" style="color: #999999;font-size: 13px;"></span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

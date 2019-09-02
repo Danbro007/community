@@ -5,8 +5,9 @@ function addComment2Question() {
     var questionId = $("#questionId").val();
     if (!content){
         alert("回答内容不能为空!")
+    }else {
+        comment2target(questionId, 1, content);
     }
-    comment2target(questionId, 1, content);
 }
 
 //对评论回复
@@ -15,8 +16,9 @@ function addComment2Comment(e) {
     var content = $("#input-" + commentId).val();
     if (!content) {
         alert("回答内容不能为空!")
+    }else{
+        comment2target(commentId, 2, content)
     }
-    comment2target(commentId, 2, content)
 }
 
 //发送评论的ajax方法
