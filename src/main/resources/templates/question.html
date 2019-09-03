@@ -36,7 +36,6 @@
                                th:if="${ session.user != null && question.creator == session.user.id}">编辑</a>
                         </span>
                     </span>
-
                 </div>
                 <div id="question-markdown-view">
                     <textarea style="display:none;" th:text="${question.getDescription()}"></textarea>
