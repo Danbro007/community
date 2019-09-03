@@ -146,7 +146,7 @@
             <!--评论栏-->
             <div th:if="${session.user == null}" style="text-align: center;margin-bottom: 20px">
                 要回复问题请先<a
-                    href="https://github.com/login/oauth/authorize?client_id=06fdb966a8cbcf08c463&redirect_uri=http://localhost:8888/callback&scope=user&state=1">登录</a>
+                    th:href="@{https://github.com/login/oauth/authorize(client_id='06fdb966a8cbcf08c463',redirect_uri=${'http://' + #httpServletRequest.getServerName() + ':'+ #httpServletRequest.getServerPort()+'/callback'},scope='user',state='1')}">登录</a>
             </div>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
