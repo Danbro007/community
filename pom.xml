@@ -28,7 +28,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.47</version>
+            <version>8.0.28</version>
         </dependency>
         <!--&lt;!&ndash;配置flyway对mysql进行版本控制&ndash;&gt;-->
         <dependency>
@@ -103,7 +103,7 @@
                     <dependency>
                         <groupId>mysql</groupId>
                         <artifactId>mysql-connector-java</artifactId>
-                        <version>5.1.47</version>
+                        <version>8.0.28</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -128,7 +128,7 @@
                     <dependency>
                         <groupId>mysql</groupId>
                         <artifactId>mysql-connector-java</artifactId>
-                        <version>5.1.47</version>
+                        <version>8.0.28</version>
                     </dependency>
                 </dependencies>
             </plugin>
